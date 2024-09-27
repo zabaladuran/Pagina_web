@@ -208,6 +208,7 @@ a:hover {
     flex: 1;
     background-color: #fff;
     padding: 20px;
+    overflow-y: auto;
 }
 
 /* Barra superior */
@@ -243,15 +244,12 @@ a:hover {
     background-color: #3498db;
 }
 
-/* Contenido del panel principal */
-.content {
-    padding: 20px;
-}
-
+/* Widgets */
 .widgets {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    gap: 20px;
 }
 
 .widget {
@@ -260,11 +258,6 @@ a:hover {
     padding: 20px;
     border-radius: 5px;
     flex: 1;
-    margin-right: 10px;
-}
-
-.widget:last-child {
-    margin-right: 0;
 }
 
 .alert {
@@ -275,6 +268,7 @@ a:hover {
     color: white;
 }
 
+/* Tabla */
 .doc-table {
     width: 100%;
     border-collapse: collapse;
@@ -294,4 +288,15 @@ a:hover {
 
 .doc-table td {
     background-color: #f4f4f4;
+}
+
+/* Tabla responsive */
+@media (max-width: 768px) {
+    .widgets {
+        flex-direction: column;
+    }
+    
+    .widget {
+        margin-bottom: 20px;
+    }
 }

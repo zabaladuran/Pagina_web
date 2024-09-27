@@ -119,10 +119,11 @@ SELECT * FROM usuarios;
 SET SQL_SAFE_UPDATES = 0;-- desactivar el modo seguro
 UPDATE usuarios
 SET rol = 1  -- Cambia '1' por el ID real si es diferente
-WHERE email = 'admin3@gmail.com';
+WHERE email = 'admin11@gmail.com';
 SET SQL_SAFE_UPDATES = 1; -- activar  el modo seguro
 
 
 */
 
 USE empresa_inventario;
+

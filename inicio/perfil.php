@@ -70,8 +70,8 @@ $conn->close();
                 <img src="../img/Captura_de_pantalla_2024-09-18_224818-removebg-preview.png" alt="Logo de Inventario">
             </div>
             <ul>
-                <li><a href="home.php"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="perfil.php"><i class="fas fa-user"></i> Perfil</a></li>
+                <li><a href="home.php"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="inventario.php"><i class="fas fa-boxes"></i> Inventario</a></li>
                 <li><a href="mantenimiento.php"><i class="fas fa-tools"></i> Mantenimiento</a></li>
                 <li><a href="reportes.php"><i class="fas fa-chart-line"></i> Reportes</a></li>
