@@ -1,3 +1,4 @@
+/*
 CREATE DATABASE IF NOT EXISTS empresa_inventario;
 
 USE empresa_inventario;
@@ -96,3 +97,32 @@ CREATE TABLE historial_login (
   fecha_ingreso DATETIME,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+USE empresa_inventario;
+
+select * from usuarios;
+select * from login;
+SELECT * FROM login WHERE username = 'admin3';
+SELECT * FROM usuarios WHERE id = 2;
+
+INSERT INTO roles (nombre, descripcion) VALUES 
+('admin', 'Administrador del sistema con acceso completo.'),
+('inventarista', 'Responsable de la gestión del inventario.'),
+('mantenimiento', 'Encargado de realizar el mantenimiento de equipos.'),
+('reportes', 'Generador de informes y reportes del sistema.');
+
+
+
+
+SELECT * FROM usuarios;
+-- AGREGAR ROL 
+SET SQL_SAFE_UPDATES = 0;-- desactivar el modo seguro
+UPDATE usuarios
+SET rol = 1  -- Cambia '1' por el ID real si es diferente
+WHERE email = 'admin3@gmail.com';
+SET SQL_SAFE_UPDATES = 1; -- activar  el modo seguro
+
+
+*/
+
+USE empresa_inventario;

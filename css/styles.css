@@ -225,6 +225,10 @@ a:hover {
     font-size: 24px;
 }
 
+.topbar .actions {
+    display: flex;
+}
+
 .topbar .actions .btn {
     background-color: #2980b9;
     color: white;
@@ -232,6 +236,7 @@ a:hover {
     border-radius: 5px;
     text-decoration: none;
     margin-left: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .topbar .actions .btn:hover {
