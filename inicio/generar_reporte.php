@@ -28,7 +28,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Reporte</title>
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/btton_reportes.css">
 </head>
 <body>
     <!-- Capa semi-transparente -->

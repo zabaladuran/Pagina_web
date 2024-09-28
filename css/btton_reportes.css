@@ -1,0 +1,79 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Color de fondo */
+    margin: 0;
+    padding: 0;
+}
+
+/* Capa semi-transparente */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Color y opacidad de la capa */
+}
+
+/* Contenedor principal */
+.container {
+    position: relative;
+    z-index: 1; /* Asegura que el contenedor esté por encima de la capa */
+    width: 80%;
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #ffffff; /* Color de fondo del contenedor */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra del contenedor */
+    padding: 20px; /* Espaciado interno */
+}
+
+/* Estilo del encabezado */
+h2 {
+    color: #333; /* Color del texto del encabezado */
+    text-align: center; /* Centrar el texto */
+}
+
+/* Estilo de la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Quitar el espacio entre las celdas */
+    margin-top: 20px; /* Espacio superior */
+}
+
+th, td {
+    padding: 12px; /* Espaciado interno */
+    border: 1px solid #ddd; /* Borde de las celdas */
+    text-align: left; /* Alinear texto a la izquierda */
+}
+
+th {
+    background-color: #007BFF; /* Color de fondo de los encabezados */
+    color: white; /* Color del texto de los encabezados */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo para filas pares */
+}
+
+tr:hover {
+    background-color: #e2e2e2; /* Color de fondo al pasar el ratón sobre la fila */
+}
+
+/* Estilo del botón */
+.btn {
+    display: block;
+    margin: 20px auto; /* Margen automático para centrar */
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #007BFF; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    font-size: 16px; /* Tamaño de fuente */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Color al pasar el ratón sobre el botón */
+}
