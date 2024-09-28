@@ -165,5 +165,6 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 
 USE empresa_inventario;
 
+select * from equipos;
 
 
