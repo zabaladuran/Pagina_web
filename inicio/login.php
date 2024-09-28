@@ -49,10 +49,10 @@ if ($result->num_rows > 0) {
         header("Location: home.php");
         exit;
     } else {
-        echo "Nombre de usuario o contraseña incorrectos.";
+        header("Location: login.html");
     }
 } else {
-    echo "Nombre de usuario o contraseña incorrectos.";
+    header("Location: login.html");
 }
 
 $stmt->close();

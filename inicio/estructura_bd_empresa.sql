@@ -164,7 +164,12 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 */
 
 USE empresa_inventario;
+SET SQL_SAFE_UPDATES = 0;-- desactivar el modo seguro
+UPDATE usuarios
+SET rol = 1  -- Cambia '1' por el ID real si es diferente
+WHERE email = 'duran1@gmail.com';
+SET SQL_SAFE_UPDATES = 1; -- activar  el modo seguro
 
-select * from equipos;
+select * from usuarios;
 
 
