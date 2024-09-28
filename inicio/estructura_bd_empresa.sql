@@ -123,7 +123,47 @@ WHERE email = 'admin11@gmail.com';
 SET SQL_SAFE_UPDATES = 1; -- activar  el modo seguro
 
 
+INSERT INTO categorias (nombre) VALUES
+('Computadoras'),
+('Impresoras'),
+('Equipos de red'),
+('Televisores'),
+('Sistemas de audio'),
+('Proyectores'),
+('Otros dispositivos electrónicos');
+
+
+INSERT INTO marcas (nombre) VALUES
+('Samsung'),
+('LG'),
+('HP'),
+('Lenovo'),
+('Dell'),
+('Epson'),
+('Canon'),
+('Xerox'),
+('Asus'),
+('Motorola');
+
+select * from marcas;
+
+INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
+('Tech Solutions S.A.S.', 'Juan Pérez', '3123456789', 'Carrera 10 #20-30', 'info@techsolutions.com'),
+('Electro World Ltda.', 'María Gómez', '3219876543', 'Avenida 5 #10-20', 'contacto@electroworld.com'),
+('Innovación Digital S.A.', 'Carlos Ruiz', '3101234567', 'Calle 25 #12-34', 'info@innovaciondigital.com'),
+('Sistemas Avanzados S.A.S.', 'Ana Torres', '3174567890', 'Carrera 50 #30-40', 'info@sistemasavanzados.com'),
+('Red de Soluciones Electrónicas', 'Luis Martínez', '3136547890', 'Avenida 15 #22-25', 'info@redsoluciones.com'),
+('Dispositivos y Tecnología S.A.S.', 'Julián Morales', '3145678901', 'Calle 10 #15-20', 'info@dispositivosyt.com'),
+('Soluciones Electrónicas de Colombia', 'Sofía León', '3112345678', 'Calle 30 #14-18', 'contacto@solucioneselectronicas.com'),
+('Grupo Electrónico S.A.S.', 'Diego López', '3159876543', 'Carrera 12 #5-10', 'info@grupoelectronico.com'),
+('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
+('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
+
+
+
 */
 
 USE empresa_inventario;
+
+
 
