@@ -109,7 +109,8 @@ INSERT INTO roles (nombre, descripcion) VALUES
 ('admin', 'Administrador del sistema con acceso completo.'),
 ('inventarista', 'Responsable de la gestión del inventario.'),
 ('mantenimiento', 'Encargado de realizar el mantenimiento de equipos.'),
-('reportes', 'Generador de informes y reportes del sistema.');
+('reportes', 'Generador de informes y reportes del sistema.'),
+('usuarios', 'selepermite ver mas no modificar nada.');
 
 
 
@@ -159,17 +160,20 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
 
-
+# codigos para los roles en el registro
+# admi                     = 109
+# inventarista             = 619
+# mantenimiento            = 226
+# reporte                  = 610
+# usuarios                 = " "
 
 */
 
 USE empresa_inventario;
-SET SQL_SAFE_UPDATES = 0;-- desactivar el modo seguro
-UPDATE usuarios
-SET rol = 1  -- Cambia '1' por el ID real si es diferente
-WHERE email = 'duran1@gmail.com';
-SET SQL_SAFE_UPDATES = 1; -- activar  el modo seguro
 
-select * from usuarios;
+
+
+
+select * from roles;
 
 

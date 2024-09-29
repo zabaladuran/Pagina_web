@@ -30,21 +30,13 @@ label {
     text-align: left;
 }
 
-input[type="email"],
-input[type="text"],
-input[type="date"],
-input[type="password"],
-textarea {
+.input-field {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-sizing: border-box;
-}
-
-textarea {
-    height: 60px;
 }
 
 button {
