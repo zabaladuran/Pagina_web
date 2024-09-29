@@ -1,2 +1,2 @@
 # Pagina_web
-Una pagina web para la Optimización de la Gestión de Inventario y Mantenimiento de Dispositivos Electrónicos en medianas empresas
+Una pagina web para la Optimización de la Gestión de Inventario y Mantenimiento de Dispositivos Electrónicos en medianas empresas. la comida de los gatos
