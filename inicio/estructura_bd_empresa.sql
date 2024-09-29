@@ -160,6 +160,20 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
 
+INSERT INTO equipos (nombre, descripcion, cantidad, proveedor_id, categoria_id, marca_id, precio, caracteristicas)
+VALUES 
+('Laptop Dell XPS 13', 'Laptop de alto rendimiento con pantalla de 13 pulgadas', 10, 1, 1, 5, 1200.00, '16GB RAM, 512GB SSD, Intel Core i7'),
+('Impresora HP LaserJet Pro', 'Impresora láser de alta velocidad, ideal para oficinas', 5, 2, 2, 3, 300.00, 'Impresión láser, hasta 40ppm, conectividad inalámbrica'),
+('Router TP-Link Archer AX50', 'Router de última generación con Wi-Fi 6', 20, 3, 3, 4, 150.00, 'Wi-Fi 6, Doble banda, hasta 3000Mbps'),
+('Televisor Samsung 55" 4K', 'Televisor UHD 4K con HDR', 7, 4, 4, 1, 700.00, 'Resolución 4K, HDR10+, Smart TV'),
+('Proyector Epson PowerLite', 'Proyector de alta resolución, ideal para presentaciones en oficina', 3, 5, 6, 6, 450.00, 'Resolución 1080p, 3000 lúmenes, HDMI, Wi-Fi'),
+('Smartphone Lenovo Moto G Power', 'Teléfono inteligente de gama media con batería de larga duración', 15, 6, 5, 9, 200.00, '5000mAh, Cámara de 48MP, Pantalla de 6.4"'),
+('Sistema de Audio LG XBoom', 'Sistema de audio potente para fiestas', 8, 7, 6, 2, 250.00, 'Bluetooth, 500W, Ecualizador, Luces LED'),
+('Switch Cisco SG350-28', 'Switch administrado con 28 puertos Gigabit', 12, 8, 3, 4, 600.00, '28 puertos Gigabit, PoE, VLAN, QoS'),
+('Monitor Asus ProArt 27"', 'Monitor profesional de 27 pulgadas para diseño gráfico', 4, 9, 1, 10, 400.00, '27", 4K UHD, 100% sRGB, HDMI, DisplayPort'),
+('Tablet Samsung Galaxy Tab S7', 'Tableta de alto rendimiento con pantalla de 11 pulgadas', 9, 10, 5, 1, 650.00, '11" TFT, 128GB almacenamiento, Snapdragon 865+')
+;
+
 # codigos para los roles en el registro
 # admi                     = 109
 # inventarista             = 619
