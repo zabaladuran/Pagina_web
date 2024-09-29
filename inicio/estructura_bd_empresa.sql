@@ -166,7 +166,7 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 # mantenimiento            = 226
 # reporte                  = 610
 # usuarios                 = " "
-
+# oña
 */
 
 USE empresa_inventario;
