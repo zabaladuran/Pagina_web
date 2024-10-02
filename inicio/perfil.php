@@ -84,7 +84,7 @@ $conn->close();
             <header class="topbar">
                 <h1>Perfil de Usuario</h1>
                 <div class="actions">
-                    <a href="#" class="btn">Editar Perfil</a>
+                    <a href="editar_perfil.php" class="btn">Editar Perfil</a> <!-- Botón para redirigir a la página de edición -->
                     <a href="logout.php" class="btn">Salir</a>
                 </div>
             </header>
