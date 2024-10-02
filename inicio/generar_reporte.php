@@ -31,7 +31,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Reporte</title>
-    <link rel="stylesheet" href="../css/btton_reportes.css">
+    <link rel="stylesheet" href="../css/btn_repotes.css">
 </head>
 <body>
     <!-- Capa semi-transparente -->
