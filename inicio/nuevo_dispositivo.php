@@ -75,6 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $precio = $_POST['precio'];
     $caracteristicas = $_POST['caracteristicas'];
 
+    // Calcular el precio total
+    $precio_total = $precio * $cantidad;
+
     // Validar que los campos obligatorios no estén vacíos
     if (empty($nombre) || empty($descripcion) || empty($cantidad) || empty($proveedor) || empty($categoria) || empty($marca) || empty($precio)) {
         $_SESSION['message'] = "Por favor, completa todos los campos obligatorios.";
@@ -83,14 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Preparar la consulta de inserción
-    $sql = $conn->prepare("INSERT INTO equipos (nombre, descripcion, cantidad, proveedor_id, categoria_id, marca_id, precio, caracteristicas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $sql = $conn->prepare("INSERT INTO equipos (nombre, descripcion, cantidad, proveedor_id, categoria_id, marca_id, precio, precio_total, caracteristicas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Verificar si la preparación fue exitosa
     if (!$sql) {
         die("Error en la preparación de la consulta: " . $conn->error);
     }
 
-    $sql->bind_param('ssiiidis', $nombre, $descripcion, $cantidad, $proveedor, $categoria, $marca, $precio, $caracteristicas);
+    $sql->bind_param('ssiiiddss', $nombre, $descripcion, $cantidad, $proveedor, $categoria, $marca, $precio, $precio_total, $caracteristicas);
 
     // Ejecutar la consulta
     if ($sql->execute()) {
@@ -171,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ?>
             </select><br>
 
-            <label for="precio">Precio:</label>
+            <label for="precio">Precio (por unidad):</label>
             <input type="number" step="0.01" name="precio" required><br>
 
             <label for="caracteristicas">Características:</label>

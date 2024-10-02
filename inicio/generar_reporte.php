@@ -14,7 +14,10 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-$sql = "SELECT e.nombre, e.descripcion, e.cantidad, e.precio, p.nombre AS proveedor, c.nombre AS categoria, m.nombre AS marca
+// Consulta SQL para obtener datos de los dispositivos
+$sql = "SELECT e.nombre, e.descripcion, e.cantidad, e.precio, 
+               (e.cantidad * e.precio) AS precio_total,  -- Calcular precio total
+                p.nombre AS proveedor, c.nombre AS categoria, m.nombre AS marca
         FROM equipos e
         JOIN proveedores p ON e.proveedor_id = p.id
         JOIN categorias c ON e.categoria_id = c.id
@@ -44,6 +47,7 @@ $result = $conn->query($sql);
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
+                    <th>Precio Total</th> <!-- Nueva columna para Precio Total -->
                     <th>Proveedor</th>
                     <th>Categoría</th>
                     <th>Marca</th>
@@ -53,10 +57,19 @@ $result = $conn->query($sql);
                 <?php
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row['nombre'] . "</td><td>" . $row['descripcion'] . "</td><td>" . $row['cantidad'] . "</td><td>" . $row['precio'] . "</td><td>" . $row['proveedor'] . "</td><td>" . $row['categoria'] . "</td><td>" . $row['marca'] . "</td></tr>";
+                        echo "<tr>
+                                <td>" . htmlspecialchars($row['nombre']) . "</td>
+                                <td>" . htmlspecialchars($row['descripcion']) . "</td>
+                                <td>" . htmlspecialchars($row['cantidad']) . "</td>
+                                <td>" . number_format($row['precio'], 2) . "</td>
+                                <td>" . number_format($row['precio_total'], 2) . "</td> <!-- Mostrar precio total -->
+                                <td>" . htmlspecialchars($row['proveedor']) . "</td>
+                                <td>" . htmlspecialchars($row['categoria']) . "</td>
+                                <td>" . htmlspecialchars($row['marca']) . "</td>
+                                </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='7'>No hay dispositivos registrados</td></tr>";
+                    echo "<tr><td colspan='8'>No hay dispositivos registrados</td></tr>"; // Cambiar a colspan='8'
                 }
                 ?>
             </tbody>
