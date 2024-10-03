@@ -4,14 +4,39 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.html");
     exit;
 }
+
+// Conexión a la base de datos
+$conn = new mysqli("127.0.0.1", "root", "", "empresa_inventario");
+
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Consulta SQL para obtener datos de mantenimiento
+$sql = "SELECT e.nombre AS dispositivo, 
+               m.fecha_mantenimiento AS ultimo_mantenimiento,
+               DATE_ADD(m.fecha_mantenimiento, INTERVAL t.frecuencia_mantenimiento DAY) AS proximo_mantenimiento,
+               t.nombre AS tipo_mantenimiento
+        FROM mantenimientos m
+        JOIN fechas_productos fp ON m.fecha_producto_id = fp.id
+        JOIN equipos e ON fp.producto_equipo_id = e.id
+        JOIN tipos_mantenimiento t ON m.tipo_mantenimiento_id = t.id";
+
+$result = $conn->query($sql);
+
+// Manejo de errores
+if (!$result) {
+    die("Error en la consulta: " . $conn->error);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulapp - Mantenimiento</title>
-    <link rel="stylesheet" href="../css/mantenimiento.css">
+    <link rel="stylesheet" href="../css/mantenimiento1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -22,6 +47,11 @@ if (!isset($_SESSION['username'])) {
                 <h1>Gestión de Mantenimiento</h1>
             </header>
             <div class="content">
+                <!-- Botón para crear un nuevo mantenimiento -->
+                <div class="button-container">
+                    <a href="crear_mantenimiento.php" class="btn btn-primary">Crear Mantenimiento</a>
+                </div>
+
                 <table class="doc-table">
                     <thead>
                         <tr>
@@ -32,12 +62,23 @@ if (!isset($_SESSION['username'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Impresora - Piso 3</td>
-                            <td>2024-03-10</td>
-                            <td>2024-09-10</td>
-                            <td><a href="#">Editar</a> | <a href="#">Eliminar</a></td>
-                        </tr>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                                echo "<tr>
+                                        <td>" . htmlspecialchars($row['dispositivo']) . "</td>
+                                        <td>" . htmlspecialchars($row['ultimo_mantenimiento']) . "</td>
+                                        <td>" . htmlspecialchars($row['proximo_mantenimiento']) . "</td>
+                                        <td>
+                                            <a href='#'>Editar</a> | 
+                                            <a href='#'>Eliminar</a>
+                                        </td>
+                                    </tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>No hay mantenimientos registrados</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -45,3 +86,7 @@ if (!isset($_SESSION['username'])) {
     </div>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

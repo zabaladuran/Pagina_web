@@ -74,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $marca = $_POST['marca'];
     $precio = $_POST['precio'];
     $caracteristicas = $_POST['caracteristicas'];
+    $fecha_compra = $_POST['fecha_compra'];
+    $fecha_garantia = $_POST['fecha_garantia'];
+    $fecha_vida_util = $_POST['fecha_vida_util'];
 
     // Calcular el precio total
     $precio_total = $precio * $cantidad;
@@ -88,7 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    // Preparar la consulta de inserción
+    // Generar un código único
+    $codigo_unico = uniqid('eq_'); // Prefijo 'eq_' seguido de un ID único
+
+    // Preparar la consulta de inserción en la tabla equipos
     $sql = $conn->prepare("INSERT INTO equipos (nombre, descripcion, cantidad, proveedor_id, categoria_id, marca_id, precio, precio_total, caracteristicas, estado_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Verificar si la preparación fue exitosa
@@ -101,7 +107,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Ejecutar la consulta
     if ($sql->execute()) {
-        $_SESSION['message'] = "Dispositivo añadido exitosamente con estado 'libre'.";
+        // Obtener el ID del dispositivo insertado
+        $producto_equipo_id = $conn->insert_id;
+
+        // Ahora insertar en la tabla fechas_productos
+        $sql_fecha = $conn->prepare("INSERT INTO fechas_productos (producto_equipo_id, fecha_compra, fecha_garantia, fecha_vida_util, codigo_unico_del_equipo) VALUES (?, ?, ?, ?, ?)");
+
+        // Verificar si la preparación fue exitosa
+        if (!$sql_fecha) {
+            die("Error en la preparación de la consulta: " . $conn->error);
+        }
+
+        // Asignar parámetros para la tabla fechas_productos
+        $sql_fecha->bind_param('issss', $producto_equipo_id, $fecha_compra, $fecha_garantia, $fecha_vida_util, $codigo_unico);
+
+        // Ejecutar la consulta
+        if ($sql_fecha->execute()) {
+            $_SESSION['message'] = "Dispositivo añadido exitosamente con estado 'libre' y código único: $codigo_unico.";
+        } else {
+            $_SESSION['message'] = "Error al añadir fechas del dispositivo: " . $conn->error;
+        }
+
+        // Cerrar la consulta
+        $sql_fecha->close();
     } else {
         $_SESSION['message'] = "Error al añadir dispositivo: " . $conn->error;
     }
@@ -120,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Nuevo Dispositivo</title>
-    <link rel="stylesheet" href="../css/nuevos_dps.css">
+    <link rel="stylesheet" href="../css/nuevos_dps1.css">
 </head>
 <body>
     <div class="overlay"></div>
@@ -139,13 +167,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="proveedor">Proveedor:</label>
             <select name="proveedor" required>
                 <?php
-                $sql_proveedores = "SELECT * FROM proveedores";
-                $result_proveedores = $conn->query($sql_proveedores);
-
-                if ($result_proveedores->num_rows > 0) {
-                    while($row = $result_proveedores->fetch_assoc()) {
-                        echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                    }
+                // Obtener proveedores de la base de datos
+                $result = $conn->query("SELECT id, nombre FROM proveedores");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}'>{$row['nombre']}</option>";
                 }
                 ?>
             </select><br>
@@ -153,13 +178,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="categoria">Categoría:</label>
             <select name="categoria" required>
                 <?php
-                $sql_categorias = "SELECT * FROM categorias";
-                $result_categorias = $conn->query($sql_categorias);
-
-                if ($result_categorias->num_rows > 0) {
-                    while($row = $result_categorias->fetch_assoc()) {
-                        echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                    }
+                // Obtener categorías de la base de datos
+                $result = $conn->query("SELECT id, nombre FROM categorias");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}'>{$row['nombre']}</option>";
                 }
                 ?>
             </select><br>
@@ -167,26 +189,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="marca">Marca:</label>
             <select name="marca" required>
                 <?php
-                $sql_marcas = "SELECT * FROM marcas";
-                $result_marcas = $conn->query($sql_marcas);
-
-                if ($result_marcas->num_rows > 0) {
-                    while($row = $result_marcas->fetch_assoc()) {
-                        echo "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
-                    }
+                // Obtener marcas de la base de datos
+                $result = $conn->query("SELECT id, nombre FROM marcas");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['id']}'>{$row['nombre']}</option>";
                 }
                 ?>
             </select><br>
 
-            <label for="precio">Precio (por unidad):</label>
+            <label for="precio">Precio:</label>
             <input type="number" step="0.01" name="precio" required><br>
 
             <label for="caracteristicas">Características:</label>
             <textarea name="caracteristicas" required></textarea><br>
 
-            <button type="submit">Añadir Dispositivo</button>
-            <button type="button" class="btn" onclick="window.location.href='home.php';">Regresar al Home</button>
+            <label for="fecha_compra">Fecha de Compra:</label>
+            <input type="date" class="date-input" name="fecha_compra" required><br>
+
+            <label for="fecha_garantia">Fecha de Garantía:</label>
+            <input type="date" class="date-input" name="fecha_garantia" required><br>
+
+            <label for="fecha_vida_util">Fecha de Vida Útil:</label>
+            <input type="date" class="date-input" name="fecha_vida_util" required><br>
+
+            <input type="submit" value="Añadir Dispositivo">
         </form>
+
+        <!-- Botón para regresar a home.php -->
+        <button onclick="window.location.href='home.php'">Regresar a Inicio</button>
     </div>
 </body>
 </html>
+
+<?php
+// Cerrar la conexión
+$conn->close();
+?>

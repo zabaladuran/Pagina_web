@@ -71,7 +71,8 @@ CREATE TABLE fechas_productos (
 CREATE TABLE tipos_mantenimiento (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
-  descripcion TEXT
+  descripcion TEXT,
+  frecuencia_mantenimiento INT NOT NULL DEFAULT 30 -- Frecuencia de mantenimiento en días
 );
 
 -- 9. Crear tabla de mantenimientos (depende de fechas de productos y tipos de mantenimiento)
@@ -167,9 +168,12 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
 
-
-
-
+-- 18. Insertar datos en la tabla tipos de mantenimiento
+INSERT INTO tipos_mantenimiento (nombre) VALUES
+('Preventivo'),
+('Correctivo'),
+('Predictivo'),
+('De Emergencia');
 
 agregar etado en invwentario 
 
