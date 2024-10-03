@@ -166,3 +166,13 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Grupo Electrónico S.A.S.', 'Diego López', '3159876543', 'Carrera 12 #5-10', 'info@grupoelectronico.com'),
 ('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
+
+
+
+
+
+agregar etado en invwentario 
+
+hacer la ceccion de mantenimientos 
+
+y terminar el home , "que el dispositivo dentre como estado libre "

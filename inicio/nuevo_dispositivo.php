@@ -78,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Calcular el precio total
     $precio_total = $precio * $cantidad;
 
+    // Asignar el estado "libre" (asumiendo que el id es 1)
+    $estado_id = 2; // ID del estado "libre" en la tabla `estados_equipos`
+
     // Validar que los campos obligatorios no estén vacíos
     if (empty($nombre) || empty($descripcion) || empty($cantidad) || empty($proveedor) || empty($categoria) || empty($marca) || empty($precio)) {
         $_SESSION['message'] = "Por favor, completa todos los campos obligatorios.";
@@ -86,18 +89,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Preparar la consulta de inserción
-    $sql = $conn->prepare("INSERT INTO equipos (nombre, descripcion, cantidad, proveedor_id, categoria_id, marca_id, precio, precio_total, caracteristicas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $sql = $conn->prepare("INSERT INTO equipos (nombre, descripcion, cantidad, proveedor_id, categoria_id, marca_id, precio, precio_total, caracteristicas, estado_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Verificar si la preparación fue exitosa
     if (!$sql) {
         die("Error en la preparación de la consulta: " . $conn->error);
     }
 
-    $sql->bind_param('ssiiiddss', $nombre, $descripcion, $cantidad, $proveedor, $categoria, $marca, $precio, $precio_total, $caracteristicas);
+    // Asignar parámetros
+    $sql->bind_param('ssiiiddssi', $nombre, $descripcion, $cantidad, $proveedor, $categoria, $marca, $precio, $precio_total, $caracteristicas, $estado_id);
 
     // Ejecutar la consulta
     if ($sql->execute()) {
-        $_SESSION['message'] = "Dispositivo añadido exitosamente.";
+        $_SESSION['message'] = "Dispositivo añadido exitosamente con estado 'libre'.";
     } else {
         $_SESSION['message'] = "Error al añadir dispositivo: " . $conn->error;
     }

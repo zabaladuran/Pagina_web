@@ -28,7 +28,13 @@ if (isset($_POST['edit_id'])) {
     exit;
 }
 
-$result = $conn->query("SELECT * FROM equipos");
+// Consulta para obtener los dispositivos junto con su estado
+$result = $conn->query("
+    SELECT e.*, es.nombre AS estado_nombre
+    FROM equipos e
+    LEFT JOIN estados_equipos es ON e.estado_id = es.id
+");
+
 $totalPrecio = 0; // Variable para almacenar el precio total
 ?>
 <!DOCTYPE html>
@@ -55,7 +61,8 @@ $totalPrecio = 0; // Variable para almacenar el precio total
                             <th>Descripción</th>
                             <th>Cantidad</th>
                             <th>Precio (UNI)</th>
-                            <th>Precio Total</th> <!-- Nueva columna para Precio Total -->
+                            <th>Precio Total</th>
+                            <th>Estado</th> <!-- Nueva columna para Estado -->
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -71,15 +78,16 @@ $totalPrecio = 0; // Variable para almacenar el precio total
                                 <td><?php echo htmlspecialchars($row['cantidad']); ?></td>
                                 <td><?php echo htmlspecialchars($row['precio']); ?></td>
                                 <td><?php echo number_format($precioTotal, 2); ?> USD</td> <!-- Mostrar precio total por dispositivo -->
+                                <td><?php echo htmlspecialchars($row['estado_nombre']); ?></td> <!-- Mostrar el estado del dispositivo -->
                                 <td>
-                                    <a href="edit_device.php?id=<?php echo $row['id']; ?>" class="edit-btn">Editar</a> | <!-- Sin target="_blank" -->
-                                    <a href="inventario.php?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar este dispositivo?');">Eliminar</a> <!-- Cambiado a inventario.php -->
+                                    <a href="edit_device.php?id=<?php echo $row['id']; ?>" class="edit-btn">Editar</a> | 
+                                    <a href="inventario.php?delete_id=<?php echo $row['id']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar este dispositivo?');">Eliminar</a> 
                                 </td>
                             </tr>
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6">No hay dispositivos registrados.</td> <!-- Cambiar a colspan="6" para la nueva columna -->
+                                <td colspan="7">No hay dispositivos registrados.</td> <!-- Cambiado a colspan="7" para la nueva columna -->
                             </tr>
                         <?php endif; ?>
                     </tbody>

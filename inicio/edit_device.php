@@ -14,9 +14,13 @@ if (isset($_POST['edit_id'])) {
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
     $precio = $_POST['precio'];
-    
-    $conn->query("UPDATE equipos SET nombre='$nombre', descripcion='$descripcion', cantidad='$cantidad', precio='$precio' WHERE id = $id");
-    header("Location: inventario.php"); // Regresar a inventario.php después de guardar cambios
+    $estado_id = $_POST['estado']; // Recoger el nuevo estado del formulario
+
+    // Actualizar los datos del dispositivo, incluyendo el estado
+    $conn->query("UPDATE equipos SET nombre='$nombre', descripcion='$descripcion', cantidad='$cantidad', precio='$precio', estado_id='$estado_id' WHERE id = $id");
+
+    // Redirigir a inventario.php después de guardar los cambios
+    header("Location: inventario.php");
     exit;
 }
 
@@ -24,6 +28,13 @@ if (isset($_POST['edit_id'])) {
 $id = $_GET['id'];
 $result = $conn->query("SELECT * FROM equipos WHERE id = $id");
 $row = $result->fetch_assoc();
+
+// Obtener los estados disponibles desde la tabla `estados_equipos`
+$estados_result = $conn->query("SELECT * FROM estados_equipos");
+$estados = [];
+while ($estado = $estados_result->fetch_assoc()) {
+    $estados[] = $estado;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -31,7 +42,7 @@ $row = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Dispositivo</title>
-    <link rel="stylesheet" href="../css/edit_device.css">
+    <link rel="stylesheet" href="../css/edit_device1.css">
 </head>
 <body>
     <div class="edit-device-container">
@@ -50,6 +61,16 @@ $row = $result->fetch_assoc();
 
             <label for="precio">Precio:</label>
             <input type="number" step="0.01" id="precio" name="precio" value="<?php echo htmlspecialchars($row['precio']); ?>" required><br><br>
+
+            <!-- Campo para seleccionar el estado del dispositivo -->
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado" class="select" required>
+                <?php foreach ($estados as $estado): ?>
+                    <option value="<?php echo $estado['id']; ?>" <?php if ($estado['id'] == $row['estado_id']) echo 'selected'; ?>>
+                        <?php echo $estado['nombre']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select><br><br>
 
             <input type="submit" value="Guardar Cambios">
         </form>

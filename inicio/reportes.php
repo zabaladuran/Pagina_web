@@ -14,14 +14,16 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Consulta SQL para obtener datos de los dispositivos
+// Consulta SQL para obtener datos de los dispositivos, incluyendo el estado
 $sql = "SELECT e.nombre, e.descripcion, e.cantidad, e.precio, 
                (e.cantidad * e.precio) AS precio_total,  -- Calcular precio total
-                p.nombre AS proveedor, c.nombre AS categoria, m.nombre AS marca
+                p.nombre AS proveedor, c.nombre AS categoria, m.nombre AS marca, 
+                es.nombre AS estado  -- Agregar el estado
         FROM equipos e
         JOIN proveedores p ON e.proveedor_id = p.id
         JOIN categorias c ON e.categoria_id = c.id
-        JOIN marcas m ON e.marca_id = m.id";
+        JOIN marcas m ON e.marca_id = m.id
+        JOIN estados_equipos es ON e.estado_id = es.id";  // Unir con la tabla de estados
 $result = $conn->query($sql);
 ?>
 
@@ -51,6 +53,7 @@ $result = $conn->query($sql);
                     <th>Proveedor</th>
                     <th>Categoría</th>
                     <th>Marca</th>
+                    <th>Estado</th> <!-- Nueva columna para Estado -->
                 </tr>
             </thead>
             <tbody>
@@ -66,10 +69,11 @@ $result = $conn->query($sql);
                                 <td>" . htmlspecialchars($row['proveedor']) . "</td>
                                 <td>" . htmlspecialchars($row['categoria']) . "</td>
                                 <td>" . htmlspecialchars($row['marca']) . "</td>
+                                <td>" . htmlspecialchars($row['estado']) . "</td> <!-- Mostrar estado -->
                                 </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='8'>No hay dispositivos registrados</td></tr>"; // Cambiar a colspan='8'
+                    echo "<tr><td colspan='9'>No hay dispositivos registrados</td></tr>"; // Cambiar a colspan='9'
                 }
                 ?>
             </tbody>
