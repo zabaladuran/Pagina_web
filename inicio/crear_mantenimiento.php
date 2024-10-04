@@ -1,85 +1,107 @@
 <?php
-// Conectar a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = ""; // tu contraseña
-$dbname = "empresa_inventario";
+// Conexión a la base de datos
+$host = 'localhost';
+$db = 'empresa_inventario';
+$user = 'root';
+$pass = ''; // Contraseña vacía
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($host, $user, $pass, $db);
 
 // Verificar conexión
 if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Verificar si se enviaron datos mediante POST
+// Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener datos del formulario
-    $tipo_mantenimiento_id = $_POST['tipo_mantenimiento_id'] ?? null;
-    $equipo_id = $_POST['equipo_id'] ?? null; // Cambiado a equipo_id
-    $fecha_mantenimiento = $_POST['fecha_mantenimiento'] ?? null;
-    $descripcion = $_POST['descripcion'] ?? null;
-    $tecnico = $_POST['tecnico'] ?? null;
+    $tipo_mantenimiento = $_POST['tipo_mantenimiento'];
+    $descripcion = $_POST['descripcion'];
+    $tecnico_id = $_POST['tecnico_id'];
+    $estado_mantenimiento = $_POST['estado_mantenimiento'];
 
-    // Validar campos
-    if (empty($tipo_mantenimiento_id) || empty($equipo_id) || empty($fecha_mantenimiento) || empty($descripcion) || empty($tecnico)) {
-        die("Error: Todos los campos son obligatorios.");
-    }
-
-    // Preparar la consulta
-    $sql = "INSERT INTO mantenimientos (fecha_producto_id, tipo_mantenimiento_id, fecha_mantenimiento, descripcion, tecnico)
-            VALUES (?, ?, ?, ?, ?)";
-
-    // Preparar la sentencia
+    // Consulta para insertar el mantenimiento
+    $sql = "INSERT INTO mantenimientos (tipo_mantenimiento, descripcion, tecnico_id, estado_mantenimiento)
+            VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iisss", $equipo_id, $tipo_mantenimiento_id, $fecha_mantenimiento, $descripcion, $tecnico); // Actualizado a equipo_id
+    $stmt->bind_param("ssis", $tipo_mantenimiento, $descripcion, $tecnico_id, $estado_mantenimiento);
 
-    // Ejecutar la consulta
     if ($stmt->execute()) {
-        echo "Mantenimiento creado con éxito.";
+        echo "Mantenimiento registrado correctamente.";
     } else {
         echo "Error: " . $stmt->error;
     }
 
-    // Cerrar la sentencia
     $stmt->close();
 }
 
-// Obtener tipos de mantenimiento y equipos para los selects
+// Consulta para obtener tipos de mantenimiento
 $tipos_mantenimiento_result = $conn->query("SELECT id, nombre FROM tipos_mantenimiento");
-$equipos_result = $conn->query("SELECT id, nombre FROM equipos");
+if (!$tipos_mantenimiento_result) {
+    die("Error en la consulta de tipos de mantenimiento: " . $conn->error);
+}
+$tipos_mantenimiento = [];
+while ($row = $tipos_mantenimiento_result->fetch_assoc()) {
+    $tipos_mantenimiento[] = $row;
+}
 
-// Cerrar conexión
+// Consulta para obtener técnicos (asumiendo que tienes una tabla de técnicos)
+$tecnicos_result = $conn->query("SELECT id, nombre FROM tecnicos");
+if (!$tecnicos_result) {
+    die("Error en la consulta de técnicos: " . $conn->error);
+}
+$tecnicos = [];
+while ($row = $tecnicos_result->fetch_assoc()) {
+    $tecnicos[] = $row;
+}
+
+// Consulta para obtener estados de mantenimiento (asumiendo que tienes una tabla de estados)
+$estados_result = $conn->query("SELECT DISTINCT estado FROM mantenimientos");
+if (!$estados_result) {
+    die("Error en la consulta de estados: " . $conn->error);
+}
+$estados = [];
+while ($row = $estados_result->fetch_assoc()) {
+    $estados[] = $row['estado'];
+}
+
 $conn->close();
 ?>
 
-<!-- Formulario HTML para crear mantenimiento -->
-<form method="POST" action="">
-    <label for="tipo_mantenimiento_id">Tipo de Mantenimiento:</label>
-    <select name="tipo_mantenimiento_id" id="tipo_mantenimiento_id" required>
-        <option value="">Seleccione un tipo de mantenimiento</option>
-        <?php while ($tipo = $tipos_mantenimiento_result->fetch_assoc()): ?>
-            <option value="<?= $tipo['id'] ?>"><?= $tipo['nombre'] ?></option>
-        <?php endwhile; ?>
-    </select><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Mantenimiento</title>
+</head>
+<body>
+    <h1>Registrar Mantenimiento</h1>
+    <form method="POST" action="">
+        <label for="tipo_mantenimiento">Tipo de Mantenimiento:</label>
+        <select id="tipo_mantenimiento" name="tipo_mantenimiento" required>
+            <?php foreach ($tipos_mantenimiento as $tipo): ?>
+                <option value="<?= $tipo['id']; ?>"><?= $tipo['nombre']; ?></option>
+            <?php endforeach; ?>
+        </select><br>
 
-    <label for="equipo_id">Seleccionar Equipo:</label>
-    <select name="equipo_id" id="equipo_id" required>
-        <option value="">Seleccione un equipo</option>
-        <?php while ($equipo = $equipos_result->fetch_assoc()): ?>
-            <option value="<?= $equipo['id'] ?>"><?= $equipo['nombre'] ?></option>
-        <?php endwhile; ?>
-    </select><br>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required></textarea><br>
 
-    <label for="fecha_mantenimiento">Fecha de Mantenimiento:</label>
-    <input type="date" name="fecha_mantenimiento" id="fecha_mantenimiento" required><br>
+        <label for="tecnico_id">ID del Técnico:</label>
+        <select id="tecnico_id" name="tecnico_id" required>
+            <?php foreach ($tecnicos as $tecnico): ?>
+                <option value="<?= $tecnico['id']; ?>"><?= $tecnico['nombre']; ?></option>
+            <?php endforeach; ?>
+        </select><br>
 
-    <label for="descripcion">Descripción:</label>
-    <textarea name="descripcion" id="descripcion" required></textarea><br>
+        <label for="estado_mantenimiento">Estado del Mantenimiento:</label>
+        <select id="estado_mantenimiento" name="estado_mantenimiento" required>
+            <?php foreach ($estados as $estado): ?>
+                <option value="<?= $estado; ?>"><?= ucfirst($estado); ?></option>
+            <?php endforeach; ?>
+        </select><br>
 
-    <label for="tecnico">Técnico:</label>
-    <input type="text" name="tecnico" id="tecnico" required><br>
-
-    <input type="submit" value="Crear Mantenimiento">
-</form>
+        <button type="submit">Registrar Mantenimiento</button>
+    </form>
+</body>
+</html>

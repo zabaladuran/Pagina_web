@@ -3,12 +3,92 @@ CREATE DATABASE IF NOT EXISTS empresa_inventario;
 
 USE empresa_inventario;
 
+-- 1. Crear tabla de roles (es independiente)
 CREATE TABLE roles (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
   descripcion TEXT
 );
 
+-- 2. Crear tabla de estados de equipos (independiente)
+CREATE TABLE estados_equipos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(50) NOT NULL
+);
+
+-- 3. Crear tabla de categorías de equipos (independiente)
+CREATE TABLE categorias (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL
+);
+
+-- 4. Crear tabla de proveedores (independiente)
+CREATE TABLE proveedores (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  contacto VARCHAR(100),
+  telefono VARCHAR(15),
+  direccion VARCHAR(255),
+  email VARCHAR(100)
+);
+
+-- 5. Crear tabla de marcas (independiente)
+CREATE TABLE marcas (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL
+);
+
+-- 6. Crear tabla de equipos (sin estado_id)
+CREATE TABLE equipos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  descripcion TEXT,
+  cantidad INT,
+  proveedor_id INT,
+  categoria_id INT,
+  marca_id INT,
+  precio DECIMAL(10, 2),
+  precio_total DECIMAL(10, 2), -- Nuevo campo para precio total
+  caracteristicas TEXT,
+  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id),
+  FOREIGN KEY (categoria_id) REFERENCES categorias(id),
+  FOREIGN KEY (marca_id) REFERENCES marcas(id)
+);
+
+-- 7. Crear tabla de fechas de productos (depende de equipos)
+CREATE TABLE fechas_productos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  producto_equipo_id INT NOT NULL,
+  fecha_compra DATE,
+  fecha_garantia DATE,
+  fecha_vida_util DATE,
+  codigo_unico_del_equipo VARCHAR(100),
+  FOREIGN KEY (producto_equipo_id) REFERENCES equipos(id)
+);
+
+-- 8. Crear tabla de tipos de mantenimiento (independiente)
+CREATE TABLE tipos_mantenimiento (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  descripcion TEXT,
+  frecuencia_mantenimiento INT NOT NULL DEFAULT 30 -- Frecuencia de mantenimiento en días
+);
+
+-- 9. Crear tabla de mantenimientos (con estado_id)
+CREATE TABLE mantenimientos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  equipo_id INT NOT NULL,
+  tipo_mantenimiento_id INT NOT NULL,
+  fecha_mantenimiento DATE,
+  descripcion TEXT,
+  tecnico VARCHAR(100),
+  estado_id INT, -- Relación con la tabla de estados
+  FOREIGN KEY (equipo_id) REFERENCES equipos(id),
+  FOREIGN KEY (tipo_mantenimiento_id) REFERENCES tipos_mantenimiento(id),
+  FOREIGN KEY (estado_id) REFERENCES estados_equipos(id)
+);
+
+-- 10. Crear tabla de usuarios (depende de roles)
 CREATE TABLE usuarios (
   id INT PRIMARY KEY AUTO_INCREMENT,
   email VARCHAR(100) NOT NULL,
@@ -22,67 +102,7 @@ CREATE TABLE usuarios (
   FOREIGN KEY (rol) REFERENCES roles(id)
 );
 
-CREATE TABLE categorias (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE proveedores (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL,
-  contacto VARCHAR(100),
-  telefono VARCHAR(15),
-  direccion VARCHAR(255),
-  email VARCHAR(100)
-);
-
-CREATE TABLE marcas (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE equipos (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL,
-  descripcion TEXT,
-  cantidad INT,
-  proveedor_id INT,
-  categoria_id INT,
-  marca_id INT,
-  precio DECIMAL(10, 2),
-  caracteristicas TEXT, -- Campo para características
-  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id),
-  FOREIGN KEY (categoria_id) REFERENCES categorias(id),
-  FOREIGN KEY (marca_id) REFERENCES marcas(id)
-);
-
-CREATE TABLE fechas_productos (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  producto_equipo_id INT NOT NULL,
-  fecha_compra DATE,
-  fecha_garantia DATE,
-  fecha_vida_util DATE,
-  codigo_unico_del_equipo VARCHAR(100), -- Campo trasladado aquí
-  FOREIGN KEY (producto_equipo_id) REFERENCES equipos(id)
-);
-
-CREATE TABLE tipos_mantenimiento (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL,
-  descripcion TEXT
-);
-
-CREATE TABLE mantenimientos (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  fecha_producto_id INT NOT NULL,
-  tipo_mantenimiento_id INT NOT NULL,
-  fecha_mantenimiento DATE,
-  descripcion TEXT,
-  tecnico VARCHAR(100),
-  FOREIGN KEY (fecha_producto_id) REFERENCES fechas_productos(id),
-  FOREIGN KEY (tipo_mantenimiento_id) REFERENCES tipos_mantenimiento(id)
-);
-
+-- 11. Crear tabla de login (depende de usuarios)
 CREATE TABLE login (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT NOT NULL,
@@ -91,6 +111,7 @@ CREATE TABLE login (
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
+-- 12. Crear tabla de historial de login (depende de usuarios)
 CREATE TABLE historial_login (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT,
@@ -98,32 +119,21 @@ CREATE TABLE historial_login (
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
-USE empresa_inventario;
-
-select * from usuarios;
-select * from login;
-SELECT * FROM login WHERE username = 'admin3';
-SELECT * FROM usuarios WHERE id = 2;
-
+-- 13. Insertar datos en la tabla roles
 INSERT INTO roles (nombre, descripcion) VALUES 
 ('admin', 'Administrador del sistema con acceso completo.'),
 ('inventarista', 'Responsable de la gestión del inventario.'),
 ('mantenimiento', 'Encargado de realizar el mantenimiento de equipos.'),
 ('reportes', 'Generador de informes y reportes del sistema.'),
-('usuarios', 'selepermite ver mas no modificar nada.');
+('usuarios', 'Permite ver pero no modificar nada.');
 
+-- 14. Insertar datos en la tabla estados_equipos
+INSERT INTO estados_equipos (nombre) VALUES
+('en mantenimiento'),
+('libre'),
+('en uso');
 
-
-
-SELECT * FROM usuarios;
--- AGREGAR ROL 
-SET SQL_SAFE_UPDATES = 0;-- desactivar el modo seguro
-UPDATE usuarios
-SET rol = 1  -- Cambia '1' por el ID real si es diferente
-WHERE email = 'admin11@gmail.com';
-SET SQL_SAFE_UPDATES = 1; -- activar  el modo seguro
-
-
+-- 15. Insertar datos en la tabla categorías
 INSERT INTO categorias (nombre) VALUES
 ('Computadoras'),
 ('Impresoras'),
@@ -133,7 +143,7 @@ INSERT INTO categorias (nombre) VALUES
 ('Proyectores'),
 ('Otros dispositivos electrónicos');
 
-
+-- 16. Insertar datos en la tabla marcas
 INSERT INTO marcas (nombre) VALUES
 ('Samsung'),
 ('LG'),
@@ -146,8 +156,7 @@ INSERT INTO marcas (nombre) VALUES
 ('Asus'),
 ('Motorola');
 
-select * from marcas;
-
+-- 17. Insertar datos en la tabla proveedores
 INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Tech Solutions S.A.S.', 'Juan Pérez', '3123456789', 'Carrera 10 #20-30', 'info@techsolutions.com'),
 ('Electro World Ltda.', 'María Gómez', '3219876543', 'Avenida 5 #10-20', 'contacto@electroworld.com'),
@@ -160,33 +169,14 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
 
-# codigos para los roles en el registro
-# admi                     = 109
-# inventarista             = 619
-# mantenimiento            = 226
-# reporte                  = 610
-# usuarios                 = " "
-
-
-
-CREATE TABLE estados_equipos (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(50) NOT NULL
-);
-
-INSERT INTO estados_equipos (nombre) VALUES
-('en mantenimiento'),
-('libre'),
-('en uso');
-
-ALTER TABLE equipos
-ADD COLUMN estado_id INT,
-ADD FOREIGN KEY (estado_id) REFERENCES estados_equipos(id);
-
-
-ALTER TABLE equipos
-ADD COLUMN precio_total DECIMAL(10, 2);
-
+-- 18. Insertar datos en la tabla tipos de mantenimiento
+INSERT INTO tipos_mantenimiento (nombre) VALUES
+('Preventivo'),
+('Correctivo'),
+('Predictivo'),
+('De Emergencia');
 */
 
 USE empresa_inventario;
+ALTER TABLE mantenimientos MODIFY tipo_mantenimiento_id INT NULL;
+

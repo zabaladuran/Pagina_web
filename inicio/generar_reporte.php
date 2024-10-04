@@ -14,15 +14,24 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Consulta SQL para obtener datos de los dispositivos
+// Consulta SQL para obtener datos de los dispositivos, incluyendo el estado y la fecha de compra
 $sql = "SELECT e.nombre, e.descripcion, e.cantidad, e.precio, 
-               (e.cantidad * e.precio) AS precio_total,  -- Calcular precio total
-                p.nombre AS proveedor, c.nombre AS categoria, m.nombre AS marca
+               (e.cantidad * e.precio) AS precio_total,  
+                p.nombre AS proveedor, c.nombre AS categoria, m.nombre AS marca, 
+                es.nombre AS estado, fp.fecha_compra  
         FROM equipos e
         JOIN proveedores p ON e.proveedor_id = p.id
         JOIN categorias c ON e.categoria_id = c.id
-        JOIN marcas m ON e.marca_id = m.id";
+        JOIN marcas m ON e.marca_id = m.id
+        LEFT JOIN mantenimientos mt ON e.id = mt.equipo_id  
+        LEFT JOIN estados_equipos es ON mt.estado_id = es.id  
+        LEFT JOIN fechas_productos fp ON e.id = fp.producto_equipo_id";  
+
+// Ejecutar la consulta y verificar si hubo un error
 $result = $conn->query($sql);
+if (!$result) {
+    die("Error en la consulta: " . $conn->error);  // Mostrar el error de la consulta
+}
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +40,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Reporte</title>
-    <link rel="stylesheet" href="../css/btn_repotes.css">
+    <link rel="stylesheet" href="../css/btn_repotes1.css">
 </head>
 <body>
     <!-- Capa semi-transparente -->
@@ -51,6 +60,8 @@ $result = $conn->query($sql);
                     <th>Proveedor</th>
                     <th>Categoría</th>
                     <th>Marca</th>
+                    <th>Estado</th> <!-- Nueva columna para Estado -->
+                    <th>Fecha de Compra</th> <!-- Nueva columna para Fecha de Compra -->
                 </tr>
             </thead>
             <tbody>
@@ -66,10 +77,12 @@ $result = $conn->query($sql);
                                 <td>" . htmlspecialchars($row['proveedor']) . "</td>
                                 <td>" . htmlspecialchars($row['categoria']) . "</td>
                                 <td>" . htmlspecialchars($row['marca']) . "</td>
+                                <td>" . htmlspecialchars($row['estado']) . "</td> <!-- Mostrar estado -->
+                                <td>" . htmlspecialchars($row['fecha_compra']) . "</td> <!-- Mostrar fecha de compra -->
                                 </tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='8'>No hay dispositivos registrados</td></tr>"; // Cambiar a colspan='8'
+                    echo "<tr><td colspan='10'>No hay dispositivos registrados</td></tr>"; // Cambiar a colspan='10'
                 }
                 ?>
             </tbody>

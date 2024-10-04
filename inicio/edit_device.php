@@ -16,8 +16,11 @@ if (isset($_POST['edit_id'])) {
     $precio = $_POST['precio'];
     $estado_id = $_POST['estado']; // Recoger el nuevo estado del formulario
 
-    // Actualizar los datos del dispositivo, incluyendo el estado
-    $conn->query("UPDATE equipos SET nombre='$nombre', descripcion='$descripcion', cantidad='$cantidad', precio='$precio', estado_id='$estado_id' WHERE id = $id");
+    // Actualizar los datos del dispositivo
+    $conn->query("UPDATE equipos SET nombre='$nombre', descripcion='$descripcion', cantidad='$cantidad', precio='$precio' WHERE id = $id");
+
+    // Actualizar el estado del mantenimiento (asumiendo que solo hay un mantenimiento activo por equipo)
+    $conn->query("UPDATE mantenimientos SET estado_id='$estado_id' WHERE equipo_id = $id");
 
     // Redirigir a inventario.php después de guardar los cambios
     header("Location: inventario.php");
@@ -28,6 +31,11 @@ if (isset($_POST['edit_id'])) {
 $id = $_GET['id'];
 $result = $conn->query("SELECT * FROM equipos WHERE id = $id");
 $row = $result->fetch_assoc();
+
+// Obtener el estado actual desde la tabla `mantenimientos` (asumiendo que solo hay un mantenimiento activo)
+$mantenimiento_result = $conn->query("SELECT estado_id FROM mantenimientos WHERE equipo_id = $id");
+$mantenimiento_row = $mantenimiento_result->fetch_assoc();
+$estado_actual_id = $mantenimiento_row ? $mantenimiento_row['estado_id'] : null;
 
 // Obtener los estados disponibles desde la tabla `estados_equipos`
 $estados_result = $conn->query("SELECT * FROM estados_equipos");
@@ -66,13 +74,14 @@ while ($estado = $estados_result->fetch_assoc()) {
             <label for="estado">Estado:</label>
             <select id="estado" name="estado" class="select" required>
                 <?php foreach ($estados as $estado): ?>
-                    <option value="<?php echo $estado['id']; ?>" <?php if ($estado['id'] == $row['estado_id']) echo 'selected'; ?>>
+                    <option value="<?php echo $estado['id']; ?>" <?php if ($estado['id'] == $estado_actual_id) echo 'selected'; ?>>
                         <?php echo $estado['nombre']; ?>
                     </option>
                 <?php endforeach; ?>
             </select><br><br>
 
             <input type="submit" value="Guardar Cambios">
+            <button type="button" onclick="location.href='inventario.php'">Regresar</button> <!-- Botón para regresar -->
         </form>
     </div>
 </body>

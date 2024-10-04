@@ -14,12 +14,12 @@ if ($conn->connect_error) {
 
 // Consulta SQL para obtener datos de mantenimiento
 $sql = "SELECT e.nombre AS dispositivo, 
-               m.fecha_mantenimiento AS ultimo_mantenimiento,
-               DATE_ADD(m.fecha_mantenimiento, INTERVAL t.frecuencia_mantenimiento DAY) AS proximo_mantenimiento,
-               t.nombre AS tipo_mantenimiento
+            m.fecha_mantenimiento AS ultimo_mantenimiento,
+            DATE_ADD(m.fecha_mantenimiento, INTERVAL t.frecuencia_mantenimiento DAY) AS proximo_mantenimiento,
+            t.nombre AS tipo_mantenimiento
         FROM mantenimientos m
-        JOIN fechas_productos fp ON m.fecha_producto_id = fp.id
-        JOIN equipos e ON fp.producto_equipo_id = e.id
+        JOIN equipos e ON m.equipo_id = e.id
+        JOIN fechas_productos fp ON e.id = fp.producto_equipo_id
         JOIN tipos_mantenimiento t ON m.tipo_mantenimiento_id = t.id";
 
 $result = $conn->query($sql);
@@ -58,6 +58,7 @@ if (!$result) {
                             <th>Dispositivo</th>
                             <th>Último Mantenimiento</th>
                             <th>Próximo Mantenimiento</th>
+                            <th>Tipo de Mantenimiento</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -69,6 +70,7 @@ if (!$result) {
                                         <td>" . htmlspecialchars($row['dispositivo']) . "</td>
                                         <td>" . htmlspecialchars($row['ultimo_mantenimiento']) . "</td>
                                         <td>" . htmlspecialchars($row['proximo_mantenimiento']) . "</td>
+                                        <td>" . htmlspecialchars($row['tipo_mantenimiento']) . "</td>
                                         <td>
                                             <a href='#'>Editar</a> | 
                                             <a href='#'>Eliminar</a>
@@ -76,7 +78,7 @@ if (!$result) {
                                     </tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='4'>No hay mantenimientos registrados</td></tr>";
+                            echo "<tr><td colspan='5'>No hay mantenimientos registrados</td></tr>";
                         }
                         ?>
                     </tbody>
