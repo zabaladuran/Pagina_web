@@ -14,6 +14,12 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+// Manejo de la búsqueda
+$busqueda = '';
+if (isset($_POST['buscar'])) {
+    $busqueda = $conn->real_escape_string($_POST['busqueda']);
+}
+
 // Consulta SQL para obtener datos de los dispositivos, incluyendo el estado y la fecha de compra
 $sql = "SELECT e.nombre, e.descripcion, e.cantidad, e.precio, 
                (e.cantidad * e.precio) AS precio_total,  
@@ -25,7 +31,11 @@ $sql = "SELECT e.nombre, e.descripcion, e.cantidad, e.precio,
         JOIN marcas m ON e.marca_id = m.id
         LEFT JOIN mantenimientos mt ON e.id = mt.equipo_id  
         LEFT JOIN estados_equipos es ON mt.estado_id = es.id  
-        LEFT JOIN fechas_productos fp ON e.id = fp.producto_equipo_id";  
+        LEFT JOIN fechas_productos fp ON e.id = fp.producto_equipo_id";
+
+if (!empty($busqueda)) {
+    $sql .= " WHERE e.nombre LIKE '%$busqueda%'";
+}
 
 // Ejecutar la consulta y verificar si hubo un error
 $result = $conn->query($sql);
@@ -41,6 +51,7 @@ if (!$result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Reporte</title>
     <link rel="stylesheet" href="../css/btn_repotes1.css">
+    <link rel="stylesheet" href="../css/buscador.css"> <!-- Incluye el archivo CSS del buscador -->
 </head>
 <body>
     <!-- Capa semi-transparente -->
@@ -49,6 +60,13 @@ if (!$result) {
     <!-- Contenido principal -->
     <div class="container">
         <h2>Reporte de Dispositivos</h2>
+
+        <!-- Formulario de búsqueda -->
+        <form method="POST">
+            <input type="text" name="busqueda" placeholder="Buscar dispositivo por nombre" value="<?php echo htmlspecialchars($busqueda); ?>">
+            <button type="submit" name="buscar">Buscar</button>
+        </form>
+
         <table>
             <thead>
                 <tr>

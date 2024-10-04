@@ -55,3 +55,33 @@ h2 {
     margin: 20px 0; /* Margen superior e inferior para espacio */
     color: #333; /* Color del texto */
 }
+
+/* Estilos para el formulario de búsqueda */
+form {
+    margin-bottom: 20px; /* Espacio debajo del formulario */
+    display: flex; /* Usar flexbox para alinear los elementos */
+    justify-content: flex-start; /* Alinear al inicio */
+    align-items: center; /* Centrar verticalmente */
+}
+
+form input[type="text"] {
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-right: 10px; /* Espacio a la derecha del input */
+    width: 250px; /* Ancho del input */
+}
+
+form button {
+    padding: 10px 15px; /* Espaciado interno */
+    background-color: #007BFF; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor a pointer */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+form button:hover {
+    background-color: #0056b3; /* Color del fondo al pasar el mouse */
+}
