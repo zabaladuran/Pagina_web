@@ -12,8 +12,27 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+// Verificar si se ha enviado el ID del mantenimiento para eliminar
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']); // Asegurarse de que sea un número entero
+
+    // Consulta SQL para eliminar el mantenimiento
+    $sql = "DELETE FROM mantenimientos WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id); // "i" indica que el parámetro es un entero
+
+    if ($stmt->execute()) {
+        // Puedes agregar un mensaje de éxito aquí
+       // echo "<script>alert('Mantenimiento eliminado correctamente.');</script>";
+    } else {
+        //echo "<script>alert('Error al eliminar el mantenimiento: " . $stmt->error . "');</script>";
+    }
+
+    $stmt->close();
+}
+
 // Consulta SQL para obtener datos de mantenimiento
-$sql = "SELECT e.nombre AS dispositivo, 
+$sql = "SELECT m.id, e.nombre AS dispositivo, 
             m.fecha_mantenimiento AS ultimo_mantenimiento,
             DATE_ADD(m.fecha_mantenimiento, INTERVAL t.frecuencia_mantenimiento DAY) AS proximo_mantenimiento,
             t.nombre AS tipo_mantenimiento
@@ -73,7 +92,7 @@ if (!$result) {
                                         <td>" . htmlspecialchars($row['tipo_mantenimiento']) . "</td>
                                         <td>
                                             <a href='#'>Editar</a> | 
-                                            <a href='#'>Eliminar</a>
+                                            <a href='mantenimiento.php?id=" . htmlspecialchars($row['id']) . "' onclick='return confirm(\"¿Estás seguro de que quieres eliminar este mantenimiento?\");'>Eliminar</a>
                                         </td>
                                     </tr>";
                             }

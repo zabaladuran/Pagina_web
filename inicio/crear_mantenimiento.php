@@ -37,7 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ississss", $tipo_mantenimiento_id, $descripcion, $tecnico_id, $estado_id, $equipo_id, $fecha_mantenimiento, $ultimo_mantenimiento, $proximo_mantenimiento);
 
     if ($stmt->execute()) {
-        echo "Mantenimiento registrado correctamente.";
+        // Redirigir a mantenimiento.php después de registrar
+        header("Location: mantenimiento.php");
+        exit();
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -138,9 +140,9 @@ $conn->close();
 
         <button type="submit">Registrar Mantenimiento</button>
     </form>
-        <!-- Botón para volver -->
-        <form action="mantenimiento.php" method="get">
-            <button type="submit" class="btn-volver">Volver a Mantenimiento</button>
-        </form>
+    <!-- Botón para volver -->
+    <form action="mantenimiento.php" method="get">
+        <button type="submit" class="btn-volver">Volver a Mantenimiento</button>
+    </form>
 </body>
 </html>
