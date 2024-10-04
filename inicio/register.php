@@ -87,6 +87,15 @@ try {
         $stmt_login->bind_param("iss", $usuario_id, $username, $hashed_password);
         
         if ($stmt_login->execute()) {
+            // Si el rol es 'mantenimiento', insertar también en la tabla `tecnicos`
+            if ($rol === 3) { // Rol de mantenimiento
+                $sql_tecnicos = "INSERT INTO tecnicos (nombre, apellido, telefono, correo, rol_id) VALUES (?, ?, ?, ?, ?)";
+                $stmt_tecnicos = $conn->prepare($sql_tecnicos);
+                $stmt_tecnicos->bind_param("ssssi", $nombre, $apellido, $telefono, $email, $rol); // Usar el correo como dato del técnico
+                $stmt_tecnicos->execute();
+                $stmt_tecnicos->close();
+            }
+
             // Confirmar transacción
             $conn->commit();
             // Registro exitoso, redirigir a la página de login

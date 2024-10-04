@@ -379,34 +379,6 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 
 
 
-CREATE TABLE estados_equipos (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(50) NOT NULL
-);
-
-INSERT INTO estados_equipos (nombre) VALUES
-('en mantenimiento'),
-('libre'),
-('en uso');
-
-ALTER TABLE equipos
-ADD COLUMN estado_id INT,
-ADD FOREIGN KEY (estado_id) REFERENCES estados_equipos(id);
-
-
-ALTER TABLE equipos
-ADD COLUMN precio_total DECIMAL(10, 2);
-
-*/
-
-
-
-
-
-
-nuevaaaaaaaaaaaa
-
-
 
 CREATE DATABASE IF NOT EXISTS empresa_inventario;
 
@@ -447,7 +419,19 @@ CREATE TABLE marcas (
   nombre VARCHAR(100) NOT NULL
 );
 
--- 6. Crear tabla de equipos (sin estado_id)
+-- 19. Crear tabla de técnicos (dependiente de roles)
+CREATE TABLE tecnicos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  apellido VARCHAR(100) NOT NULL,
+  telefono VARCHAR(15),
+  correo VARCHAR(100),
+  rol_id INT,
+  FOREIGN KEY (rol_id) REFERENCES roles(id)
+);
+
+
+-- 7. Crear tabla de equipos (sin estado_id)
 CREATE TABLE equipos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
@@ -464,7 +448,7 @@ CREATE TABLE equipos (
   FOREIGN KEY (marca_id) REFERENCES marcas(id)
 );
 
--- 7. Crear tabla de fechas de productos (depende de equipos)
+-- 8. Crear tabla de fechas de productos (depende de equipos)
 CREATE TABLE fechas_productos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   producto_equipo_id INT NOT NULL,
@@ -475,7 +459,7 @@ CREATE TABLE fechas_productos (
   FOREIGN KEY (producto_equipo_id) REFERENCES equipos(id)
 );
 
--- 8. Crear tabla de tipos de mantenimiento (independiente)
+-- 9. Crear tabla de tipos de mantenimiento (independiente)
 CREATE TABLE tipos_mantenimiento (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
@@ -483,21 +467,22 @@ CREATE TABLE tipos_mantenimiento (
   frecuencia_mantenimiento INT NOT NULL DEFAULT 30 -- Frecuencia de mantenimiento en días
 );
 
--- 9. Crear tabla de mantenimientos (con estado_id)
+-- 10. Crear tabla de mantenimientos (con estado_id)
 CREATE TABLE mantenimientos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   equipo_id INT NOT NULL,
-  tipo_mantenimiento_id INT NULL,
+  tipo_mantenimiento_id INT NOT NULL,
   fecha_mantenimiento DATE,
   descripcion TEXT,
-  tecnico VARCHAR(100),
+  tecnico_id INT, -- Relación con la tabla de técnicos
   estado_id INT, -- Relación con la tabla de estados
   FOREIGN KEY (equipo_id) REFERENCES equipos(id),
   FOREIGN KEY (tipo_mantenimiento_id) REFERENCES tipos_mantenimiento(id),
+  FOREIGN KEY (tecnico_id) REFERENCES tecnicos(id),
   FOREIGN KEY (estado_id) REFERENCES estados_equipos(id)
 );
 
--- 10. Crear tabla de usuarios (depende de roles)
+-- 11. Crear tabla de usuarios (depende de roles)
 CREATE TABLE usuarios (
   id INT PRIMARY KEY AUTO_INCREMENT,
   email VARCHAR(100) NOT NULL,
@@ -511,7 +496,7 @@ CREATE TABLE usuarios (
   FOREIGN KEY (rol) REFERENCES roles(id)
 );
 
--- 11. Crear tabla de login (depende de usuarios)
+-- 12. Crear tabla de login (depende de usuarios)
 CREATE TABLE login (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT NOT NULL,
@@ -520,7 +505,7 @@ CREATE TABLE login (
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 12. Crear tabla de historial de login (depende de usuarios)
+-- 13. Crear tabla de historial de login (depende de usuarios)
 CREATE TABLE historial_login (
   id INT PRIMARY KEY AUTO_INCREMENT,
   usuario_id INT,
@@ -528,7 +513,7 @@ CREATE TABLE historial_login (
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 13. Insertar datos en la tabla roles
+-- 14. Insertar datos en la tabla roles
 INSERT INTO roles (nombre, descripcion) VALUES 
 ('admin', 'Administrador del sistema con acceso completo.'),
 ('inventarista', 'Responsable de la gestión del inventario.'),
@@ -536,13 +521,13 @@ INSERT INTO roles (nombre, descripcion) VALUES
 ('reportes', 'Generador de informes y reportes del sistema.'),
 ('usuarios', 'Permite ver pero no modificar nada.');
 
--- 14. Insertar datos en la tabla estados_equipos
+-- 15. Insertar datos en la tabla estados_equipos
 INSERT INTO estados_equipos (nombre) VALUES
 ('en mantenimiento'),
 ('libre'),
 ('en uso');
 
--- 15. Insertar datos en la tabla categorías
+-- 16. Insertar datos en la tabla categorías
 INSERT INTO categorias (nombre) VALUES
 ('Computadoras'),
 ('Impresoras'),
@@ -552,7 +537,7 @@ INSERT INTO categorias (nombre) VALUES
 ('Proyectores'),
 ('Otros dispositivos electrónicos');
 
--- 16. Insertar datos en la tabla marcas
+-- 17. Insertar datos en la tabla marcas
 INSERT INTO marcas (nombre) VALUES
 ('Samsung'),
 ('LG'),
@@ -565,7 +550,7 @@ INSERT INTO marcas (nombre) VALUES
 ('Asus'),
 ('Motorola');
 
--- 17. Insertar datos en la tabla proveedores
+-- 18. Insertar datos en la tabla proveedores
 INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Tech Solutions S.A.S.', 'Juan Pérez', '3123456789', 'Carrera 10 #20-30', 'info@techsolutions.com'),
 ('Electro World Ltda.', 'María Gómez', '3219876543', 'Avenida 5 #10-20', 'contacto@electroworld.com'),
@@ -578,9 +563,14 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Almacenamiento y Redes S.A.', 'Claudia Romero', '3128765432', 'Avenida 40 #30-45', 'info@almacenamiento.com'),
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com');
 
--- 18. Insertar datos en la tabla tipos de mantenimiento
+-- 19. Insertar datos en la tabla tipos de mantenimiento
 INSERT INTO tipos_mantenimiento (nombre) VALUES
 ('Preventivo'),
 ('Correctivo'),
 ('Predictivo'),
 ('De Emergencia');
+
+
+-- Insertar un técnico de ejemplo
+INSERT INTO tecnicos (nombre, apellido, telefono, correo, rol_id) VALUES
+('Carlos', 'Pérez', '3001234567', 'carlos.perez@example.com', (SELECT id FROM roles WHERE nombre = 'mantenimiento'));
