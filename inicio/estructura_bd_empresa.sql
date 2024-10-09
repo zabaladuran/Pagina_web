@@ -1,4 +1,4 @@
-
+/*
 CREATE DATABASE IF NOT EXISTS empresa_inventario;
 
 USE empresa_inventario;
@@ -193,3 +193,19 @@ INSERT INTO tipos_mantenimiento (nombre) VALUES
 -- Insertar un técnico de ejemplo
 INSERT INTO tecnicos (nombre, apellido, telefono, correo, rol_id) VALUES
 ('Carlos', 'Pérez', '3001234567', 'carlos.perez@example.com', (SELECT id FROM roles WHERE nombre = 'mantenimiento'));
+
+ALTER TABLE mantenimientos
+MODIFY tipo_mantenimiento_id INT NULL;
+
+ALTER TABLE mantenimientos
+ADD COLUMN ultimo_mantenimiento DATE,
+ADD COLUMN proximo_mantenimiento DATE;
+
+*/
+
+use empresa_inventario;
+select * from equipos;
+select * from mantenimientos;
+select * from estados_equipos;
+
+

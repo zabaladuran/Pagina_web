@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 // Verificar si se está eliminando un dispositivo
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    
+
     // Escapar el ID para evitar inyecciones SQL
     $delete_id = $conn->real_escape_string($delete_id);
 
@@ -24,7 +24,6 @@ if (isset($_GET['delete_id'])) {
 
     try {
         // Eliminar primero todas las relaciones del equipo en las tablas relacionadas
-
         // 1. Eliminar de la tabla fechas_productos
         $conn->query("DELETE FROM fechas_productos WHERE producto_equipo_id = $delete_id");
 
@@ -38,7 +37,7 @@ if (isset($_GET['delete_id'])) {
         $conn->commit();
 
         // Redireccionar después de eliminar
-        header("Location: inventario.php"); 
+        header("Location: inventario.php");
         exit;
 
     } catch (Exception $e) {
@@ -55,7 +54,7 @@ if (isset($_POST['edit_id'])) {
     $descripcion = $_POST['descripcion'];
     $cantidad = $_POST['cantidad'];
     $precio = $_POST['precio'];
-    
+
     // Escapar los valores para evitar inyecciones SQL
     $id = $conn->real_escape_string($id);
     $nombre = $conn->real_escape_string($nombre);
@@ -65,17 +64,23 @@ if (isset($_POST['edit_id'])) {
 
     // Actualizar la información del equipo
     $conn->query("UPDATE equipos SET nombre='$nombre', descripcion='$descripcion', cantidad='$cantidad', precio='$precio' WHERE id = $id");
-    
+
     // Redireccionar después de la actualización
-    header("Location: inventario.php"); 
+    header("Location: inventario.php");
     exit;
 }
 
-// Consulta para obtener los dispositivos junto con su estado desde la tabla mantenimientos
+// Consulta para obtener los dispositivos y su estado actual
 $result = $conn->query("
-    SELECT e.*, m.estado_id, es.nombre AS estado_nombre
+    SELECT e.*, 
+           COALESCE(m.estado_id, NULL) AS estado_id, 
+           COALESCE(es.nombre, 'Sin estado') AS estado_nombre
     FROM equipos e
-    LEFT JOIN mantenimientos m ON e.id = m.equipo_id
+    LEFT JOIN (
+        SELECT equipo_id, estado_id 
+        FROM mantenimientos 
+        WHERE id IN (SELECT MAX(id) FROM mantenimientos GROUP BY equipo_id)
+    ) m ON e.id = m.equipo_id
     LEFT JOIN estados_equipos es ON m.estado_id = es.id
 ");
 
