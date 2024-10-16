@@ -20,7 +20,7 @@ $email = $_POST['email'];
 $nombre = $_POST['nombre'];
 $apellido = $_POST['apellido'];
 $telefono = $_POST['telefono'];
-$direccion = $_POST['direccion'];
+$direccion = $_POST['direccion'];  // Asegúrate de que existe en la base de datos
 $fecha_nacimiento = $_POST['fecha_nacimiento'];
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -41,9 +41,8 @@ $stmt_check_username->execute();
 $result = $stmt_check_username->get_result();
 
 if ($result->num_rows > 0) {
-    // Redirigir a register.html sin mensaje
     header("Location: register.html");
-    exit; // Asegúrate de salir después de la redirección
+    exit;
 }
 
 // Determinar el rol según el código ingresado
@@ -51,16 +50,16 @@ $rol = 5; // Por defecto será 'usuarios'
 if (!empty($rol_input)) {
     switch ($rol_input) {
         case 109:
-            $rol = 1; // ID del rol 'admin'
+            $rol = 1;
             break;
         case 619:
-            $rol = 2; // ID del rol 'inventarista'
+            $rol = 2;
             break;
         case 226:
-            $rol = 3; // ID del rol 'mantenimiento'
+            $rol = 3;
             break;
         case 610:
-            $rol = 4; // ID del rol 'reportes'
+            $rol = 4;
             break;
     }
 }
@@ -73,49 +72,46 @@ try {
     $conn->begin_transaction();
 
     // Insertar datos en la tabla `usuarios`
-    $sql_usuarios = "INSERT INTO usuarios (email, nombre, apellido, telefono, direccion, fecha_nacimiento, rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql_usuarios = "INSERT INTO usuarios (email, nombre, apellido, telefono, direccion, fecha_nacimiento, rol_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt_usuarios = $conn->prepare($sql_usuarios);
+    if (!$stmt_usuarios) {
+        throw new Exception("Error en la preparación de la consulta para usuarios: " . $conn->error);
+    }
     $stmt_usuarios->bind_param("ssssssi", $email, $nombre, $apellido, $telefono, $direccion, $fecha_nacimiento, $rol);
     
     if ($stmt_usuarios->execute()) {
-        // Obtener el ID del usuario recién creado
         $usuario_id = $stmt_usuarios->insert_id;
         
         // Insertar datos en la tabla `login`
         $sql_login = "INSERT INTO login (usuario_id, username, password) VALUES (?, ?, ?)";
         $stmt_login = $conn->prepare($sql_login);
+        if (!$stmt_login) {
+            throw new Exception("Error en la preparación de la consulta para login: " . $conn->error);
+        }
         $stmt_login->bind_param("iss", $usuario_id, $username, $hashed_password);
         
         if ($stmt_login->execute()) {
-            // Si el rol es 'mantenimiento', insertar también en la tabla `tecnicos`
-            if ($rol === 3) { // Rol de mantenimiento
+            if ($rol === 3) { // Si el rol es 'mantenimiento'
                 $sql_tecnicos = "INSERT INTO tecnicos (nombre, apellido, telefono, correo, rol_id) VALUES (?, ?, ?, ?, ?)";
                 $stmt_tecnicos = $conn->prepare($sql_tecnicos);
-                $stmt_tecnicos->bind_param("ssssi", $nombre, $apellido, $telefono, $email, $rol); // Usar el correo como dato del técnico
+                $stmt_tecnicos->bind_param("ssssi", $nombre, $apellido, $telefono, $email, $rol);
                 $stmt_tecnicos->execute();
                 $stmt_tecnicos->close();
             }
-
-            // Confirmar transacción
             $conn->commit();
-            // Registro exitoso, redirigir a la página de login
             header("Location: login.html");
             exit();
         } else {
-            // Error al insertar en la tabla `login`, deshacer la transacción
             throw new Exception("Error al insertar en la tabla login: " . $conn->error);
         }
     } else {
-        // Error al insertar en la tabla `usuarios`, deshacer la transacción
         throw new Exception("Error al insertar en la tabla usuarios: " . $conn->error);
     }
 } catch (Exception $e) {
-    // Deshacer transacción si hay algún error
     $conn->rollback();
     echo $e->getMessage();
 }
 
-// Cerrar conexiones
 $stmt_usuarios->close();
 $stmt_login->close();
 $stmt_check_username->close();

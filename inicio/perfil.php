@@ -38,7 +38,7 @@ if ($usuario_id) {
     // Consulta para obtener los datos del usuario
     $sql = "SELECT u.*, r.nombre AS rol_nombre 
             FROM usuarios u 
-            JOIN roles r ON u.rol = r.id 
+            JOIN roles r ON u.rol_id = r.id 
             WHERE u.id = ?";
     
     $stmt = $conn->prepare($sql);
