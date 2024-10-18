@@ -48,22 +48,8 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </header>
 
-            <!-- Panel principal -->
             <div class="content">
-                <div class="widgets">
-                    <div class="widget">
-                        <h3>Dispositivos en Inventario</h3>
-                        <p>150 dispositivos</p>
-                    </div>
-                    <div class="widget">
-                        <h3>Dispositivos en Mantenimiento</h3>
-                        <p>20 dispositivos</p>
-                    </div>
-                    <div class="widget">
-                        <h3>Inventario Crítico</h3>
-                        <p>5 dispositivos con stock bajo</p>
-                    </div>
-                </div>
+            </div>
 
                 <div class="alert">
                     <h2>Alertas de Inventario y Mantenimiento</h2>
