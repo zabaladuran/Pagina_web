@@ -16,7 +16,7 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulapp - Gestión de Inventarios y Mantenimiento</title>
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Iconos -->
 </head>
 <body>
@@ -31,7 +31,7 @@ if (!isset($_SESSION['username'])) {
                 <li><a href="inventario.php"><i class="fas fa-boxes"></i> Inventario</a></li>
                 <li><a href="mantenimiento.php"><i class="fas fa-tools"></i> Mantenimiento</a></li>
                 <li><a href="generar_reporte.php"><i class="fas fa-chart-line"></i> Reportes</a></li>
-                <li><a href="configuracion.php"><i class="fas fa-cog"></i> Configuración</a></li>
+                <li><a href="configuracion.php"><i class="fas fa-cog"></i> Informacion</a></li>
                 <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </nav>
@@ -69,32 +69,6 @@ if (!isset($_SESSION['username'])) {
                     <h2>Alertas de Inventario y Mantenimiento</h2>
                     <p>Dispositivos que requieren atención inmediata.</p>
                 </div>
-
-                <h3>Detalles del Inventario</h3>
-                <table class="doc-table">
-                    <thead>
-                        <tr>
-                            <th>Dispositivo</th>
-                            <th>Estado</th>
-                            <th>Último Mantenimiento</th>
-                            <th>Próximo Mantenimiento</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>PC - Oficina 101</td>
-                            <td>En uso</td>
-                            <td>2024-01-15</td>
-                            <td>2024-07-15</td>
-                        </tr>
-                        <tr>
-                            <td>Impresora - Piso 3</td>
-                            <td>Mantenimiento pendiente</td>
-                            <td>2024-03-10</td>
-                            <td>2024-09-10</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

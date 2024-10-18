@@ -1,8 +1,30 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('https://i.pinimg.com/1200x/46/58/4a/46584af0336e12dba61276757a798330.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    animation: fadeIn 2s ease-in;
+}
 /* Estilo de la tabla */
 table {
     width: 100%;
     border-collapse: collapse; /* Quitar el espacio entre las celdas */
     margin-top: 20px; /* Espacio superior */
+    animation: fadeInTable 1.5s ease forwards;
+}
+
+/* Animación de la tabla */
+@keyframes fadeInTable {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 th, td {
@@ -22,12 +44,12 @@ th:nth-child(5), td:nth-child(5) { /* Proveedor */
 }
 
 th {
-    background-color: #007BFF; /* Color de fondo de los encabezados */
-    color: white; /* Color del texto de los encabezados */
+    background-color: #fcbdfc; /* Color de fondo de los encabezados del primer código */
+    color: #140101; /* Color del texto de los encabezados */
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Color de fondo para filas pares */
+    background-color: rgba(252, 164, 247, 0.8); /* Color de fondo para filas pares del primer código */
 }
 
 tr:hover {
@@ -39,17 +61,20 @@ tr:hover {
     display: block;
     margin: 20px auto; /* Margen automático para centrar */
     padding: 10px 20px; /* Espaciado interno */
-    background-color: #007BFF; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
+    background-color: #fcbdfc; /* Color de fondo del botón */
+    color: #140101; /* Color del texto del botón */
     border: none;
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cambia el cursor al pasar el ratón */
     font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .btn:hover {
-    background-color: #0056b3; /* Color al pasar el ratón sobre el botón */
+    background-color: #836fff; /* Color del botón al hacer hover, del primer código */
+    transform: scale(1.05);
 }
+
 h2 {
     text-align: center; /* Centra el texto */
     margin: 20px 0; /* Margen superior e inferior para espacio */
@@ -62,6 +87,19 @@ form {
     display: flex; /* Usar flexbox para alinear los elementos */
     justify-content: flex-start; /* Alinear al inicio */
     align-items: center; /* Centrar verticalmente */
+    animation: fadeInForm 1.5s ease forwards;
+}
+
+/* Animación del formulario */
+@keyframes fadeInForm {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 form input[type="text"] {
@@ -74,14 +112,15 @@ form input[type="text"] {
 
 form button {
     padding: 10px 15px; /* Espaciado interno */
-    background-color: #007BFF; /* Color de fondo del botón */
-    color: white; /* Color del texto del botón */
+    background-color: #fcbdfc; /* Color de fondo del botón */
+    color: #140101; /* Color del texto del botón */
     border: none; /* Sin borde */
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cambiar cursor a pointer */
-    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 form button:hover {
-    background-color: #0056b3; /* Color del fondo al pasar el mouse */
+    background-color: #836fff; /* Color del fondo al pasar el mouse */
+    transform: scale(1.05);
 }

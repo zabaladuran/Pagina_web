@@ -73,8 +73,8 @@ if (isset($_POST['edit_id'])) {
 // Consulta para obtener los dispositivos y su estado actual
 $result = $conn->query("
     SELECT e.*, 
-           COALESCE(m.estado_id, NULL) AS estado_id, 
-           COALESCE(es.nombre, 'Sin estado') AS estado_nombre
+            COALESCE(m.estado_id, NULL) AS estado_id, 
+            COALESCE(es.nombre, 'Sin estado') AS estado_nombre
     FROM equipos e
     LEFT JOIN (
         SELECT equipo_id, estado_id 
@@ -98,7 +98,7 @@ $totalPrecio = 0; // Variable para almacenar el precio total
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulapp - Inventario</title>
-    <link rel="stylesheet" href="../css/inventario.css">
+    <link rel="stylesheet" href="../css/inventario1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>

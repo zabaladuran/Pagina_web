@@ -60,7 +60,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Aulapp</title>
-    <link rel="stylesheet" href="../css/perfil.css">
+    <link rel="stylesheet" href="../css/perfil1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Iconos -->
 </head>
 <body>
@@ -75,7 +75,7 @@ $conn->close();
                 <li><a href="inventario.php"><i class="fas fa-boxes"></i> Inventario</a></li>
                 <li><a href="mantenimiento.php"><i class="fas fa-tools"></i> Mantenimiento</a></li>
                 <li><a href="reportes.php"><i class="fas fa-chart-line"></i> Reportes</a></li>
-                <li><a href="configuracion.php"><i class="fas fa-cog"></i> Configuración</a></li>
+                <li><a href="configuracion.php"><i class="fas fa-cog"></i> Informacion</a></li>
                 <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </nav>

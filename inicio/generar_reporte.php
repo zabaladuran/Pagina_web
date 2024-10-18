@@ -50,7 +50,7 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Reporte</title>
-    <link rel="stylesheet" href="../css/btn_repotes1.css">
+    <link rel="stylesheet" href="../css/btn_repotes3.css">
     <link rel="stylesheet" href="../css/buscador.css"> <!-- Incluye el archivo CSS del buscador -->
 </head>
 <body>

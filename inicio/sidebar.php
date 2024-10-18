@@ -30,7 +30,7 @@
         </li>
         <li>
             <a href="configuracion.php">
-                <i class="fas fa-cog"></i> Configuración
+                <i class="fas fa-cog"></i> Informacion
             </a>
         </li>
         <li>

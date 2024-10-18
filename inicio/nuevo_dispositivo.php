@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Nuevo Dispositivo</title>
-    <link rel="stylesheet" href="../css/nuevos_dps1.css">
+    <link rel="stylesheet" href="../css/nuevos_dps2.css">
 </head>
 <body>
     <div class="overlay"></div>
@@ -235,6 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="date" name="fecha_vida_util" required><br>
 
             <input type="submit" value="Añadir Dispositivo">
+            <button type="button" class="btn" onclick="window.location.href='home.php';">Regresar al Home</button>
         </form>
     </div>
 </body>
