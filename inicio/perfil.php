@@ -67,7 +67,7 @@ $conn->close();
     <div class="dashboard-container">
         <nav class="sidebar">
             <div class="logo">
-                <img src="../img/Captura_de_pantalla_2024-09-18_224818-removebg-preview.png" alt="Logo de Inventario">
+                <img src="../img/rosaa-removebg-preview.png" alt="Logo de Inventario">
             </div>
             <ul>
                 <li><a href="perfil.php"><i class="fas fa-user"></i> Perfil</a></li>

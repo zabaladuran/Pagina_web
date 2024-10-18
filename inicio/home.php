@@ -24,7 +24,7 @@ if (!isset($_SESSION['username'])) {
         <!-- Barra lateral -->
         <nav class="sidebar">
             <div class="logo">
-                <img src="../img/Captura_de_pantalla_2024-09-18_224818-removebg-preview.png" alt="inventory Logo">
+                <img src="../img/rosaa-removebg-preview.png" alt="inventory Logo">
             </div>
             <ul>
                 <li><a href="perfil.php"><i class="fas fa-user"></i> Perfil</a></li> <!-- Enlace al módulo de perfil -->

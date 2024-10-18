@@ -1,6 +1,6 @@
 <div class="sidebar">
     <div class="logo">
-        <img src="../img/Captura_de_pantalla_2024-09-18_224818-removebg-preview.png" alt="Logo" style="max-width: 100%; height: auto;">
+        <img src="../img/rosaa-removebg-preview.png" alt="Logo" style="max-width: 100%; height: auto;">
     </div>
     <ul>
         <li>
