@@ -1,14 +1,13 @@
-/* Estilos generales */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: #e2e3e3;
+    background: #E2E3E3;
     background-size: cover;
     color: #333;
     animation: fadeIn 2s ease-in;
 }
-
+/* Animación para el body */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -22,13 +21,13 @@ body {
     display: flex;
 }
 
-/* Contenido principal */
 .main-content {
     flex-grow: 1;
     padding: 20px;
     animation: fadeInMain 1.5s ease forwards;
 }
 
+/* Animación para el contenido principal */
 @keyframes fadeInMain {
     from {
         opacity: 0;
@@ -40,19 +39,17 @@ body {
     }
 }
 
-
-
-/* Barra superior */
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.8); /* Color de fondo */
+    background-color: #7A7474; /* Color del primer código */
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     animation: slideDownTopbar 1s ease-in-out;
 }
 
+/* Animación para el topbar */
 @keyframes slideDownTopbar {
     from {
         transform: translateY(-100%);
@@ -64,36 +61,104 @@ body {
 
 .topbar h1 {
     margin: 0;
-    color: #ffffff; /* Color del título */
+    color: #ffffff; /* Color del título del primer código */
 }
 
-/* Contenido */
 .content {
     margin-top: 20px;
-    background-color: rgb(255, 255, 255);
+    background-color: white;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    animation: fadeInContent 1.5s ease-in-out;
 }
 
-@keyframes fadeInContent {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.content p {
-    font-size: 16px;
-    color: #000000;
+.doc-table thead {
+    background-color: #7A7474; /* Fondo de cabeceras de tabla del primer código */
+    color: #140101; /* Texto de las cabeceras */
 }
 
-/*sidear*/
+.doc-table th,
+.doc-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.doc-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.doc-table a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.doc-table a:hover {
+    text-decoration: underline;
+}
+
+
+.button-container {
+    margin: 20px 0;
+}
+
+.btn {
+    background-color: #461615; /* Color del botón */
+    color: white; /* Color de texto */
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    float: right; /* Mueve el botón a la derecha */
+    
+
+
+
+}
+
+
+
+
+/*botones*/
+.action-buttons {
+    display: flex;
+    gap: 30px; /* Espacio entre botones */
+}
+
+.action-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-decoration: none;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.action-buttons a:hover {
+    background-color: #EC1B1A;
+    transform: scale(1.1); /* Efecto de zoom */
+}
+
+.action-buttons .icon {
+    width: 20px;
+    height: 20px;
+    stroke: #333;
+}
+
+
+/* Hover en los botones */
+.btn:hover {
+    background-color: #EC1B1A;
+    transform: scale(1.05);
+}
 
 /* General */
 .sidebar {

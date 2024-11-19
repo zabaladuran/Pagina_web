@@ -100,57 +100,78 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Mantenimiento</title>
-    <link rel="stylesheet" href="../css/crear_mantenimiento2.css"> 
-</head>
-<body>
-    <h1>Crear Mantenimiento</h1>
-    <form method="POST" action="">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Crear Mantenimiento</title>
+        <link rel="stylesheet" href="../css/crearmantenimiento.css"> 
+    </head>
+
+<form method="POST" action="">
+        <h1>Crear Mantenimiento</h1>
+        
+        <!-- Equipo -->
         <label for="equipo_id">Equipo:</label>
-        <select name="equipo_id" required>
+        <select name="equipo_id" id="equipo_id" required>
             <option value="">Seleccione un equipo</option>
             <?php foreach ($equipos as $equipo): ?>
-                <option value="<?php echo $equipo['id']; ?>"><?php echo $equipo['nombre']; ?></option>
+                <option value="<?php echo htmlspecialchars($equipo['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php echo htmlspecialchars($equipo['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                </option>
             <?php endforeach; ?>
         </select>
 
+        <!-- Tipo de Mantenimiento -->
         <label for="tipo_mantenimiento_id">Tipo de Mantenimiento:</label>
-        <select name="tipo_mantenimiento_id" required>
+        <select name="tipo_mantenimiento_id" id="tipo_mantenimiento_id" required>
             <option value="">Seleccione un tipo de mantenimiento</option>
             <?php foreach ($tipos_mantenimiento as $tipo): ?>
-                <option value="<?php echo $tipo['id']; ?>"><?php echo $tipo['nombre']; ?></option>
+                <option value="<?php echo htmlspecialchars($tipo['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php echo htmlspecialchars($tipo['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                </option>
             <?php endforeach; ?>
         </select>
 
+        <!-- Fecha de Mantenimiento -->
         <label for="fecha_mantenimiento">Fecha de Mantenimiento:</label>
-        <input type="date" name="fecha_mantenimiento" required>
-        
+        <input type="date" name="fecha_mantenimiento" id="fecha_mantenimiento" required>
+
+        <!-- Descripción -->
         <label for="descripcion">Descripción:</label>
-        <textarea name="descripcion" required></textarea>
-        
+        <textarea name="descripcion" id="descripcion" required></textarea>
+
+        <!-- Técnico -->
         <label for="tecnico_id">Técnico:</label>
-        <select name="tecnico_id" required>
+        <select name="tecnico_id" id="tecnico_id" required>
             <option value="">Seleccione un técnico</option>
             <?php foreach ($tecnicos as $tecnico): ?>
-                <option value="<?php echo $tecnico['id']; ?>"><?php echo $tecnico['nombre']; ?></option>
+                <option value="<?php echo htmlspecialchars($tecnico['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php echo htmlspecialchars($tecnico['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                </option>
             <?php endforeach; ?>
         </select>
 
+        <!-- Estado -->
         <label for="estado_id">Estado:</label>
-        <select name="estado_id" required>
+        <select name="estado_id" id="estado_id" required>
             <option value="">Seleccione un estado</option>
             <?php foreach ($estados as $estado): ?>
-                <option value="<?php echo $estado['id']; ?>"><?php echo $estado['nombre']; ?></option>
+                <option value="<?php echo htmlspecialchars($estado['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                    <?php echo htmlspecialchars($estado['nombre'], ENT_QUOTES, 'UTF-8'); ?>
+                </option>
             <?php endforeach; ?>
         </select>
 
+        <!-- Próximo Mantenimiento -->
         <label for="proximo_mantenimiento">Próximo Mantenimiento:</label>
-        <input type="date" name="proximo_mantenimiento" required>
+        <input type="date" name="proximo_mantenimiento" id="proximo_mantenimiento" required>
 
-        <button type="submit">Crear Mantenimiento</button>
+        <!-- Botones -->
+        <div class="button-container">
+            <button type="submit" onclick="window.location.href='volver_url.php';">Crear Mantenimiento</button>
+            <button type="button" onclick="location.href='mantenimiento.php'">Volver</button>
+        </div>
     </form>
 </body>
+
 </html>

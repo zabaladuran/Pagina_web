@@ -1,9 +1,8 @@
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: url('https://i.pinimg.com/1200x/46/58/4a/46584af0336e12dba61276757a798330.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #e2e3e3;
     color: #333;
     animation: fadeIn 2s ease-in;
 }
@@ -70,11 +69,29 @@ input[type="password"]:focus {
     outline: none;
 }
 
+button, .boton {
+    width: auto; /* Cambia a 'auto' para que no ocupen el 100% del ancho */
+    padding: 5px 5px; /* Espaciado interno más equilibrado */
+    background-color: #461615; /* Color del botón */
+    color: white; /* Color del texto */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Transición para el botón */
+    margin: 10px 0; /* Agregar espacio entre los botones */
+}
+
+button:hover, .boton:hover {
+    background-color: #EC1B1A; /* Color en hover */
+    transform: scale(1.05); /* Efecto de escala en hover */
+}
+
 button {
     width: 100%;
     padding: 10px;
-    background-color: #fcbdfc; /* Color del botón */
-    color: #140101; /* Color de texto */
+    background-color: #461615; /* Color del botón */
+    color: white; /* Color de texto */
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -83,7 +100,7 @@ button {
 }
 
 button:hover {
-    background-color: #836fff; /* Color en hover */
+    background-color: #EC1B1A; /* Color en hover */
     transform: scale(1.05); /* Efecto de escala en hover */
 }
 
@@ -92,13 +109,14 @@ a {
     text-align: center;
     margin-top: 15px;
     text-decoration: none;
-    color: #880888; /* Color del enlace */
+    color: white; /* Color del enlace */
     transition: color 0.3s; /* Transición para el color */
 }
 
 a:hover {
     text-decoration: underline;
     color: #f000c8; /* Color en hover */
+    text-align: center
 }
 
 p {

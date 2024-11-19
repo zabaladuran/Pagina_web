@@ -51,6 +51,56 @@ if ($usuario_id) {
     $userData = null; // Si no se encontró el ID del usuario, se asigna null
 }
 
+// Procesar la subida de imagen
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
+    // Configuración de la subida
+    $foto = $_FILES['foto'];
+    $targetDir = "uploads/"; // Directorio para guardar imágenes
+    $targetFile = $targetDir . basename($foto['name']);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Comprobar si el archivo es una imagen real
+    $check = getimagesize($foto['tmp_name']);
+    if ($check === false) {
+        echo "El archivo no es una imagen válida.";
+        $uploadOk = 0;
+    }
+
+    // Comprobar si el archivo ya existe
+    if (file_exists($targetFile)) {
+        echo "Lo sentimos, el archivo ya existe.";
+        $uploadOk = 0;
+    }
+
+    // Permitir solo ciertos formatos de imagen
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+        echo "Solo se permiten formatos JPG, JPEG, PNG y GIF.";
+        $uploadOk = 0;
+    }
+
+    // Intentar subir el archivo
+    if ($uploadOk == 1) {
+        if (move_uploaded_file($foto['tmp_name'], $targetFile)) {
+            echo "La imagen " . htmlspecialchars(basename($foto['name'])) . " se ha subido correctamente.";
+
+            // Guardar la ruta de la imagen en la base de datos
+            $sqlUpdate = "UPDATE usuarios SET foto_perfil = ? WHERE id = ?";
+            $stmt = $conn->prepare($sqlUpdate);
+            $stmt->bind_param("si", $targetFile, $usuario_id);
+            if ($stmt->execute()) {
+                echo "Foto de perfil actualizada con éxito.";
+                header("Refresh:0"); // Recargar la página para reflejar los cambios
+            } else {
+                echo "Error al guardar la foto en la base de datos.";
+            }
+            $stmt->close();
+        } else {
+            echo "Lo sentimos, hubo un error al subir tu archivo.";
+        }
+    }
+}
+
 $conn->close();
 ?>
 
@@ -65,44 +115,45 @@ $conn->close();
 </head>
 <body>
     <div class="dashboard-container">
-        <nav class="sidebar">
-            <div class="logo">
-                <img src="../img/rosaa-removebg-preview.png" alt="Logo de Inventario">
-            </div>
-            <ul>
-                <li><a href="perfil.php"><i class="fas fa-user"></i> Perfil</a></li>
-                <li><a href="home.php"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="inventario.php"><i class="fas fa-boxes"></i> Inventario</a></li>
-                <li><a href="mantenimiento.php"><i class="fas fa-tools"></i> Mantenimiento</a></li>
-                <li><a href="reportes.php"><i class="fas fa-chart-line"></i> Reportes</a></li>
-                <li><a href="configuracion.php"><i class="fas fa-cog"></i> Informacion</a></li>
-                <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
-            </ul>
-        </nav>
+        <?php include 'sidebar.php'; ?>
+            <div class="main-content">
+                <header class="topbar">
+                    <h1>Perfil de Usuario</h1>
+                    <div class="actions">
+                        <a href="editar_perfil.php" class="btn">Editar Perfil</a> <!-- Botón para redirigir a la página de edición -->
+                        <a href="logout.php" class="btn">Salir</a>
+                    </div>
+                </header>
+                <div class="contentmadre">
+                    <div class="content">
+                        <?php if ($userData): ?>
+                            <h2>Bienvenido, <?php echo htmlspecialchars($userData['nombre'] . ' ' . $userData['apellido']); ?></h2>
+                            <p><strong>Correo Electrónico:</strong> <?php echo htmlspecialchars($userData['email']); ?></p>
+                            <p><strong>Teléfono:</strong> <?php echo htmlspecialchars($userData['telefono']); ?></p>
+                            <p><strong>Dirección:</strong> <?php echo htmlspecialchars($userData['direccion']); ?></p>
+                            <p><strong>Fecha de Nacimiento:</strong> <?php echo htmlspecialchars($userData['fecha_nacimiento']); ?></p>
+                            <p><strong>Rol:</strong> <?php echo htmlspecialchars($userData['rol_nombre']); ?></p>
+                            
+                            
+                        <?php else: ?>
+                            <p>No se encontraron datos del usuario.</p>
+                        <?php endif; ?>
+                    </div>
 
-        <div class="main-content">
-            <header class="topbar">
-                <h1>Perfil de Usuario</h1>
-                <div class="actions">
-                    <a href="editar_perfil.php" class="btn">Editar Perfil</a> <!-- Botón para redirigir a la página de edición -->
-                    <a href="logout.php" class="btn">Salir</a>
+
+                    <div class="content2">
+                            <!-- Formulario para subir imagen -->
+                        <img src="<?php echo htmlspecialchars($userData['foto_perfil']); ?>" alt="Foto de Perfil" style="width:250px; height:auto;">
+                        <form action="perfil.php" method="post" enctype="multipart/form-data">
+                            <label for="foto">Subir nueva foto de perfil:</label>
+                            <input type="file" name="foto" id="foto" accept="image/*" required>
+                            <button type="submit">Actualizar Foto</button>
+                        </form>
+                    </div>
+                    
                 </div>
-            </header>
-
-            <div class="content">
-                <?php if ($userData): ?>
-                    <h2>Bienvenido, <?php echo htmlspecialchars($userData['nombre'] . ' ' . $userData['apellido']); ?></h2>
-                    <p><strong>Correo Electrónico:</strong> <?php echo htmlspecialchars($userData['email']); ?></p>
-                    <p><strong>Teléfono:</strong> <?php echo htmlspecialchars($userData['telefono']); ?></p>
-                    <p><strong>Dirección:</strong> <?php echo htmlspecialchars($userData['direccion']); ?></p>
-                    <p><strong>Fecha de Nacimiento:</strong> <?php echo htmlspecialchars($userData['fecha_nacimiento']); ?></p>
-                    <p><strong>Rol:</strong> <?php echo htmlspecialchars($userData['rol_nombre']); ?></p>
-                    <img src="<?php echo htmlspecialchars($userData['foto_perfil']); ?>" alt="Foto de Perfil" style="width:100px; height:auto;">
-                <?php else: ?>
-                    <p>No se encontraron datos del usuario.</p>
-                <?php endif; ?>
+                <div class="menu"></div>
             </div>
-        </div>
     </div>
 </body>
 </html>

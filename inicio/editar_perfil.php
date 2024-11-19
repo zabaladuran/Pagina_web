@@ -110,7 +110,7 @@ if (isset($conn)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil - Aulapp</title>
-    <link rel="stylesheet" href="../css/editar_perfil1.css">
+    <link rel="stylesheet" href="../css/editarPerfil.css">
 </head>
 <body>
     <div class="container">
@@ -144,8 +144,14 @@ if (isset($conn)) {
             <input type="password" id="nueva_contrasena" name="nueva_contrasena" placeholder="Ingresa tu nueva contraseña (opcional)">
 
             <button type="submit">Guardar Cambios</button>
+
+            
         </form>
-        <a href="perfil.php">Volver al Perfil</a>
+        <div class="boton">
+            <a href="perfil.php">Volver al Perfil</a>
+        </div>
+
+        
     </div>
 </body>
 </html>

@@ -108,8 +108,8 @@ body {
 }
 
 .content2 img {
-    width: 60000px; /* Ajusta el ancho deseado */
-    height: 60000px; /* Ajusta la altura deseada */
+    width: 2000px; /* Ajusta el ancho deseado */
+    height: 2000px; /* Ajusta la altura deseada */
     object-fit: cover; /* Recorta la imagen si no es proporcional */
     border-radius: 10px; /* Opcional: redondea las esquinas */
 }

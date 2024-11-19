@@ -167,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Nuevo Dispositivo</title>
-    <link rel="stylesheet" href="../css/nuevos_dps2.css">
+    <link rel="stylesheet" href="../css/nuevosdispositivo.css">
 </head>
 <body>
     <div class="overlay"></div>

@@ -1,0 +1,126 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #E2E3E3;
+    background-size: cover;
+    color: #333;
+    animation: fadeIn 2s ease-in;
+}
+/* Estilo de la tabla */
+table {
+    width: 90%; /* Ocupa el 80% del contenedor */
+    background-color: white;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    margin: 20px auto; /* Centrar con espacio vertical */
+    animation: fadeInTable 1.5s ease forwards;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: #7a7474;
+    color: #140101;
+}
+
+tr:nth-child(even) {
+    background-color: #D9D9D9;
+}
+
+tr:hover {
+    background-color: #e2e2e2;
+}
+
+/* Estilo del botón */
+.btn {
+    display: block;
+    margin: 20px auto; /* Margen automático para centrar */
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #461615; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    background-color: #EC1B1A; /* Color del botón al hacer hover, del primer código */
+    transform: scale(1.05);
+}
+
+h2 {
+    text-align: center; /* Centra el texto */
+    margin: 20px 0; /* Margen superior e inferior para espacio */
+    color: #333; /* Color del texto */
+}
+
+
+
+/* Animación del formulario */
+@keyframes fadeInForm {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de la tabla */
+@keyframes fadeInTable {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para el formulario de búsqueda */
+form {
+    float: right;
+    width: 28%;
+    margin-bottom: 20px; /* Espacio debajo del formulario */
+    display: flex; /* Usar flexbox para alinear los elementos */
+    justify-content: flex-start; /* Alinear al inicio */
+    align-items: center; /* Centrar verticalmente */
+    animation: fadeInForm 1.5s ease forwards;
+}
+
+form input[type="text"] {
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-right: 10px; /* Espacio a la derecha del input */
+    width: 250px; /* Ancho del input */
+}
+
+form button {
+    padding: 10px 15px; /* Espaciado interno */
+    background-color: #461615; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor a pointer */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+form button:hover {
+    background-color: #EC1B1A; /* Color del fondo al pasar el mouse */
+    transform: scale(1.05);
+}
+

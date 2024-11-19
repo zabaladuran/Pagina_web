@@ -55,13 +55,13 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulapp - Mantenimiento</title>
-    <link rel="stylesheet" href="../css/mantenimiento2.css">
+    <link rel="stylesheet" href="../css/mantenimineto.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="dashboard-container">
-        <?php include 'sidebar.php'; ?>
-        <div class="main-content">
+    <?php include 'sidebar.php'; ?>
+    <div class="main-content">
             <header class="topbar">
                 <h1>Gestión de Mantenimiento</h1>
             </header>
@@ -91,8 +91,20 @@ if (!$result) {
                                         <td>" . htmlspecialchars($row['proximo_mantenimiento']) . "</td>
                                         <td>" . htmlspecialchars($row['tipo_mantenimiento']) . "</td>
                                         <td>
-                                            <a href='#'>Editar</a> | 
-                                            <a href='mantenimiento.php?id=" . htmlspecialchars($row['id']) . "' onclick='return confirm(\"¿Estás seguro de que quieres eliminar este mantenimiento?\");'>Eliminar</a>
+                                            <div class='action-buttons'>
+                                                <a href='edit_device.php?id=" . htmlspecialchars($row['id']) . "' class='edit-btn' title='Editar'>
+                                                    <svg class='icon' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
+                                                        <path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'></path>
+                                                        <path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'></path>
+                                                    </svg>
+                                                </a>
+                                                <a href='inventario.php?delete_id=" . htmlspecialchars($row['id']) . "' class='delete-btn' title='Eliminar' onclick='return confirm(\"¿Está seguro de que desea eliminar este dispositivo?\");'>
+                                                    <svg class='icon' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
+                                                        <polyline points='3 6 5 6 21 6'></polyline>
+                                                        <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
+                                                    </svg>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>";
                             }

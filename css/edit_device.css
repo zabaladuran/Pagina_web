@@ -2,7 +2,7 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: url('https://i.pinimg.com/1200x/46/58/4a/46584af0336e12dba61276757a798330.jpg') no-repeat center center fixed;
+    background: #e2e3e3;
     background-size: cover;
     color: #333;
     animation: fadeIn 2s ease-in;
@@ -21,8 +21,8 @@ body {
 
 .edit-device-container {
     max-width: 500px; /* Limitar el ancho del contenedor */
-    margin: auto; /* Centrar el contenedor */
-    background-color: rgba(252, 164, 247, 0.8); /* Color de fondo del formulario */
+    margin: 50px auto; /* Espacio superior e inferior de 50px y centrar horizontalmente */
+    background-color: #7A7474; /* Color de fondo del formulario */
     padding: 20px;
     border-radius: 8px; /* Bordes redondeados */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
@@ -67,8 +67,8 @@ select:focus {
 
 /* Estilo del botón de enviar */
 input[type="submit"] {
-    background-color: #fcbdfc; /* Color de fondo */
-    color: #140101; /* Color del texto */
+    background-color: #461615; /* Color de fondo */
+    color: white; /* Color del texto */
     border: none; /* Sin borde */
     padding: 10px 15px; /* Espaciado interno */
     border-radius: 5px; /* Bordes redondeados */
@@ -79,13 +79,13 @@ input[type="submit"] {
 
 /* Estilo al pasar el mouse sobre el botón de enviar */
 input[type="submit"]:hover {
-    background-color: #ff6fec; /* Color al pasar el mouse */
+    background-color: #EC1B1A; /* Color al pasar el mouse */
     transform: scale(1.05); /* Efecto de escala */
 }
 
 /* Estilo del botón de regresar */
 button {
-    background-color: #ee58da; /* Color de fondo del botón de regresar */
+    background-color: #461615; /* Color de fondo del botón de regresar */
     color: white; /* Color del texto */
     border: none; /* Sin borde */
     padding: 10px 15px; /* Espaciado interno */
@@ -98,5 +98,5 @@ button {
 
 /* Estilo al pasar el mouse sobre el botón de regresar */
 button:hover {
-    background-color: #f84cf0; /* Color al pasar el mouse */
+    background-color: #EC1B1A; /* Color al pasar el mouse */
 }
