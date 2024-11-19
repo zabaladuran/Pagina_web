@@ -110,7 +110,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Aulapp</title>
-    <link rel="stylesheet" href="../css/perfil1.css">
+    <link rel="stylesheet" href="../css/perfil.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Iconos -->
 </head>
 <body>
@@ -140,17 +140,19 @@ $conn->close();
                         <?php endif; ?>
                     </div>
 
-
                     <div class="content2">
-                            <!-- Formulario para subir imagen -->
+                        <!-- Imagen de perfil -->
                         <img src="<?php echo htmlspecialchars($userData['foto_perfil']); ?>" alt="Foto de Perfil" style="width:250px; height:auto;">
+
+                        <!-- Formulario con mayor separación -->
                         <form action="perfil.php" method="post" enctype="multipart/form-data">
-                            <label for="foto">Subir nueva foto de perfil:</label>
+                            <label for="foto" class="custom-file-upload">
+                                Seleccionar archivo
+                            </label>
                             <input type="file" name="foto" id="foto" accept="image/*" required>
                             <button type="submit">Actualizar Foto</button>
                         </form>
                     </div>
-                    
                 </div>
                 <div class="menu"></div>
             </div>

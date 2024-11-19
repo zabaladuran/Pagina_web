@@ -234,11 +234,10 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
+    height: 130vh; /* Ocupa toda la altura de la ventana */
     border-right: 2px solid #4c4646; /* Línea divisoria en el lado derecho */
-    animation: slideInLeft 1s ease-in-out; /* Animación opcional */
+    animation: slideInLeft 1s ease-in-out; /* Animación opcional */
 }
-
 
 .sidebar ul {
     list-style: none;
@@ -301,4 +300,65 @@ body {
         transform: translateX(0);
         opacity: 1;
     }
+}
+
+/* Estilo para el campo de archivo */
+input[type="file"] {
+    display: block;
+    margin: 10px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="file"]:hover {
+    background-color: #e2e2e2;
+}
+
+/* Estilo para el botón de actualizar */
+button[type="submit"] {
+    background-color: #461615; /* Mismo estilo que los demás botones */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #EC1B1A;
+    transform: scale(1.05);
+}
+
+/* Ocultar el botón del input file original */
+input[type="file"] {
+    display: none; /* Lo oculta visualmente */
+}
+
+/* Estilo para el botón personalizado */
+.custom-file-upload {
+    display: inline-block;
+    background-color: #461615; /* Fondo del botón */
+    color: white; /* Color del texto */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 30px; /* Bordes redondeados */
+    cursor: pointer; /* Aparece como un botón interactivo */
+    font-size: 16px; /* Tamaño del texto */
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s; /* Efecto de hover */
+}
+
+/* Hover para el botón */
+.custom-file-upload:hover {
+    background-color: #EC1B1A;
+    transform: scale(1.05);
 }
