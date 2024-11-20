@@ -1,14 +1,136 @@
-/* Estilos generales */
+/* General */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #e2e3e3;
-    background-size: cover;
+    background-color: #e2e3e3;
     color: #333;
     animation: fadeIn 2s ease-in;
 }
 
+.dashboard-container {
+    display: flex;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    animation: fadeInMain 1.5s ease forwards;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #7a7474;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: slideDownTopbar 1s ease-in-out;
+    
+}
+
+.topbar h1 {
+    margin: 0;
+    color: #ffffff;
+}
+
+/* Tablas */
+.content {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.doc-table thead {
+    background-color: #7a7474;
+    color: white;
+}
+
+.doc-table th,
+.doc-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.doc-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.doc-table a {
+    color: #7a7474;
+    text-decoration: none;
+}
+
+.doc-table a:hover {
+    text-decoration: underline;
+}
+
+/* Botones */
+.action-buttons {
+    display: flex;
+    gap: 30px; /* Espacio entre botones */
+}
+
+.action-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-decoration: none;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.action-buttons a:hover {
+    background-color: #EC1B1A;
+    transform: scale(1.1); /* Efecto de zoom */
+}
+
+.action-buttons .icon {
+    width: 20px;
+    height: 20px;
+    stroke: #333;
+}
+
+/* Total Precio */
+.total-value {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    margin: 20px 10;
+    font-weight: bold;
+}
+
+.total-value span {
+    font-weight: bold;
+    color: #007BFF;
+    font-size: 18px;
+}
+
+.total-value .highlight {
+    font-weight: bold;
+    color: #7a7474;
+    font-size: 18px;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+
+/* Animaciones */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -16,17 +138,6 @@ body {
     to {
         opacity: 1;
     }
-}
-
-.dashboard-container {
-    display: flex;
-}
-
-/* Contenido principal */
-.main-content {
-    flex-grow: 1;
-    padding: 20px;
-    animation: fadeInMain 1.5s ease forwards;
 }
 
 @keyframes fadeInMain {
@@ -40,19 +151,6 @@ body {
     }
 }
 
-
-
-/* Barra superior */
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.8); /* Color de fondo */
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    animation: slideDownTopbar 1s ease-in-out;
-}
-
 @keyframes slideDownTopbar {
     from {
         transform: translateY(-100%);
@@ -62,36 +160,7 @@ body {
     }
 }
 
-.topbar h1 {
-    margin: 0;
-    color: #ffffff; /* Color del título */
-}
 
-/* Contenido */
-.content {
-    margin-top: 20px;
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    animation: fadeInContent 1.5s ease-in-out;
-}
-
-@keyframes fadeInContent {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.content p {
-    font-size: 16px;
-    color: #000000;
-}
 
 /*sidear*/
 
@@ -99,11 +168,11 @@ body {
 .sidebar {
     width: 250px;
     background-color: #461615; /* Color de fondo */
-    color: #7a7474; /* Color del texto */
+    color: #f7f7f7; /* Color del texto */
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: 130vh; /* Ocupa toda la altura de la ventana */
+    height: 160vh; /* Ocupa toda la altura de la ventana */
     border-right: 2px solid #4c4646; /* Línea divisoria en el lado derecho */
     animation: slideInLeft 1s ease-in-out; /* Animación opcional */
 }
@@ -131,7 +200,7 @@ body {
 }
 
 .sidebar ul li a {
-    color: #7a7474;
+    color: #ffffff;
     text-decoration: none;
     font-size: 20px;
     display: flex;

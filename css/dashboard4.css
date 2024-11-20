@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background: #e2e3e3;
+    background-size: cover;
     color: #333;
     animation: fadeIn 2s ease-in;
 }
@@ -19,7 +20,6 @@ body {
 .dashboard-container {
     display: flex;
 }
-
 
 .main-content {
     flex-grow: 1;
@@ -42,7 +42,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #7A7474; /* Color de fondo actualizado */
+    background-color: #7a7474; /* Color de fondo actualizado */
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     animation: slideDownTopbar 1s ease-in-out;
@@ -83,64 +83,9 @@ body {
     transform: scale(1.05);
 }
 
-.contentmadre{
-    display: flex; /* Habilita Flexbox */
-    
-    gap: 60px; /* Espaciado entre los div (alternativa a margin) */
-    margin-top: 20px; /* Espaciado opcional por encima */
-}
-
-
-.content2 {
-    margin-top: 20px;
-    width: 30%;
-    background-color: white;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    animation: fadeInContent 1.5s ease-in-out;
-
-    /* Centrar contenido con Flexbox */
-    display: flex;
-    flex-direction: column; /* Asegura que los elementos estén en columna */
-    align-items: center; /* Centra horizontalmente */
-    justify-content: center; /* Centra verticalmente */
-}
-
-.content2 img {
-    width: 2000px; /* Ajusta el ancho deseado */
-    height: 2000px; /* Ajusta la altura deseada */
-    object-fit: cover; /* Recorta la imagen si no es proporcional */
-    border-radius: 10px; /* Opcional: redondea las esquinas */
-}
-
 .content {
     margin-top: 20px;
-    width: 50%;
-    background-color: white;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    animation: fadeInContent 1.5s ease-in-out;
-}
-.menu{
-    margin-top: 20px;
-    width: 68.2%;
-    background-color: white;
-    border-radius: 5px;
-    padding: 140px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    animation: fadeInContent 1.5s ease-in-out;
-}
-@keyframes fadeInContent {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    background-color: #ffffff;
 }
 
 .widgets {
@@ -183,11 +128,10 @@ body {
 }
 
 .alert {
-    background-color: #ffc107a9;
+    background-color: white;
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 20px;
-    animation: pulseAlert 1s infinite;
 }
 
 @keyframes pulseAlert {
@@ -224,20 +168,22 @@ body {
 }
 
 
+
 /*sidear*/
 
 /* General */
 .sidebar {
     width: 250px;
     background-color: #461615; /* Color de fondo */
-    color: #7a7474; /* Color del texto */
+    color: #ffffff; /* Color del texto */
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: 130vh; /* Ocupa toda la altura de la ventana */
+    height: 160vh; /* Ocupa toda la altura de la ventana */
     border-right: 2px solid #4c4646; /* Línea divisoria en el lado derecho */
-    animation: slideInLeft 1s ease-in-out; /* Animación opcional */
+    animation: slideInLeft 1s ease-in-out; /* Animación opcional */
 }
+
 
 .sidebar ul {
     list-style: none;
@@ -261,7 +207,7 @@ body {
 }
 
 .sidebar ul li a {
-    color: #7a7474;
+    color: #ffffff;
     text-decoration: none;
     font-size: 20px;
     display: flex;
@@ -301,64 +247,90 @@ body {
         opacity: 1;
     }
 }
-
-/* Estilo para el campo de archivo */
-input[type="file"] {
-    display: block;
-    margin: 10px 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #333;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+/* Paneles */
+.panel {
+    background-color: #fff;
     border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: relative;
+    border-top: 5px solid #461615;
+    transition: all 0.3s ease-in-out;
 }
 
-input[type="file"]:hover {
-    background-color: #e2e2e2;
+.panel:hover {
+    transform: scale(1.02);
 }
 
-/* Estilo para el botón de actualizar */
-button[type="submit"] {
-    background-color: #461615; /* Mismo estilo que los demás botones */
-    color: white;
+.panel h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.panel p {
+    font-size: 1em;
+    margin: 0;
+}
+
+.panel .toggle-btn {
+    background: none;
     border: none;
-    padding: 10px 15px;
-    border-radius: 30px;
+    color: #461615;
+    font-size: 1.2em;
     cursor: pointer;
-    font-size: 16px;
-    font-family: 'Poppins', sans-serif;
-    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px;
 }
 
-button[type="submit"]:hover {
-    background-color: #EC1B1A;
-    transform: scale(1.05);
+.description {
+    margin-top: 10px;
+    padding: 10px 0 0;
+    font-size: 0.9em;
+    color: #555;
+    border-top: 1px solid #ddd;
+    display: none;
 }
 
-/* Ocultar el botón del input file original */
-input[type="file"] {
-    display: none; /* Lo oculta visualmente */
+.description.hidden {
+    display: none;
 }
 
-/* Estilo para el botón personalizado */
-.custom-file-upload {
-    display: inline-block;
-    background-color: #461615; /* Fondo del botón */
-    color: white; /* Color del texto */
-    padding: 10px 15px; /* Espaciado interno */
-    border-radius: 30px; /* Bordes redondeados */
-    cursor: pointer; /* Aparece como un botón interactivo */
-    font-size: 16px; /* Tamaño del texto */
-    text-align: center;
-    transition: background-color 0.3s, transform 0.3s; /* Efecto de hover */
+.description:not(.hidden) {
+    display: block;
 }
 
-/* Hover para el botón */
-.custom-file-upload:hover {
-    background-color: #EC1B1A;
-    transform: scale(1.05);
+.dashboard-panels {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los paneles se ajusten si no caben en una fila */
+    gap: 20px; /* Espaciado entre los paneles */
+    justify-content: space-between; /* Alinea los paneles con espacio entre ellos */
+}
+
+.panel {
+    flex: 1 1 calc(33.333% - 20px); /* Cada panel ocupa un tercio del ancho menos el espacio entre paneles */
+    box-sizing: border-box; /* Asegura que el padding y borde estén dentro del ancho del panel */
+}
+
+
+/*Reloj*/
+.clock {
+    font-family: 'Courier New', Courier, monospace; /* Fuente de estilo digital */
+    font-size: 24px; /* Tamaño del texto */
+    color: #fff; /* Color del texto */
+    background-color: #461615; /* Color de fondo */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    position: absolute; /* Ubicación absoluta */
+    top: 150px; /* Distancia desde la parte superior */
+    right: 60px; /* Distancia desde la parte derecha */
+    z-index: 100; /* Asegura que esté encima de otros elementos */
+    text-align: center; /* Centra el texto dentro del reloj */
+    transition: all 0.3s ease; /* Animación suave en hover */
+}
+
+/* Efecto hover en el reloj */
+.clock:hover {
+    background-color: #EC1B1A; /* Cambia el color de fondo al pasar el cursor */
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Aumenta la sombra */
 }

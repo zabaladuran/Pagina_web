@@ -1,11 +1,20 @@
-/* General */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #e2e3e3;
+    background: #E2E3E3;
+    background-size: cover;
     color: #333;
     animation: fadeIn 2s ease-in;
+}
+/* Animación para el body */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .dashboard-container {
@@ -18,24 +27,43 @@ body {
     animation: fadeInMain 1.5s ease forwards;
 }
 
-/* Topbar */
+/* Animación para el contenido principal */
+@keyframes fadeInMain {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #7a7474;
+    background-color: #7A7474; /* Color del primer código */
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     animation: slideDownTopbar 1s ease-in-out;
-    
+}
+
+/* Animación para el topbar */
+@keyframes slideDownTopbar {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
 .topbar h1 {
     margin: 0;
-    color: #ffffff;
+    color: #ffffff; /* Color del título del primer código */
 }
 
-/* Tablas */
 .content {
     margin-top: 20px;
     background-color: white;
@@ -50,8 +78,8 @@ body {
 }
 
 .doc-table thead {
-    background-color: #7a7474;
-    color: white;
+    background-color: #7A7474; /* Fondo de cabeceras de tabla del primer código */
+    color: #140101; /* Texto de las cabeceras */
 }
 
 .doc-table th,
@@ -66,7 +94,7 @@ body {
 }
 
 .doc-table a {
-    color: #7a7474;
+    color: #007BFF;
     text-decoration: none;
 }
 
@@ -74,7 +102,29 @@ body {
     text-decoration: underline;
 }
 
-/* Botones */
+
+.button-container {
+    margin: 20px 0;
+}
+
+.btn {
+    background-color: #461615; /* Color del botón */
+    color: white; /* Color de texto */
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    float: right; /* Mueve el botón a la derecha */
+    
+
+
+
+}
+
+
+
+
+/*botones*/
 .action-buttons {
     display: flex;
     gap: 30px; /* Espacio entre botones */
@@ -103,76 +153,22 @@ body {
     stroke: #333;
 }
 
-/* Total Precio */
-.total-value {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-top: 1px solid #ccc;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    margin: 20px 10;
-    font-weight: bold;
+
+/* Hover en los botones */
+.btn:hover {
+    background-color: #EC1B1A;
+    transform: scale(1.05);
 }
-
-.total-value span {
-    font-weight: bold;
-    color: #007BFF;
-    font-size: 18px;
-}
-
-.total-value .highlight {
-    font-weight: bold;
-    color: #7a7474;
-    font-size: 18px;
-    animation: glow 1.5s ease-in-out infinite alternate;
-}
-
-
-/* Animaciones */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInMain {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideDownTopbar {
-    from {
-        transform: translateY(-100%);
-    }
-    to {
-        transform: translateY(0);
-    }
-}
-
-
-
-/*sidear*/
 
 /* General */
 .sidebar {
     width: 250px;
     background-color: #461615; /* Color de fondo */
-    color: #7a7474; /* Color del texto */
+    color: #ffffff; /* Color del texto */
     display: flex;
     flex-direction: column;
     padding: 20px;
-    height: 130vh; /* Ocupa toda la altura de la ventana */
+    height: 160vh; /* Ocupa toda la altura de la ventana */
     border-right: 2px solid #4c4646; /* Línea divisoria en el lado derecho */
     animation: slideInLeft 1s ease-in-out; /* Animación opcional */
 }
@@ -200,7 +196,7 @@ body {
 }
 
 .sidebar ul li a {
-    color: #7a7474;
+    color: #ffffff;
     text-decoration: none;
     font-size: 20px;
     display: flex;
