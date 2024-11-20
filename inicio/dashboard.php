@@ -16,7 +16,7 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
     <div class="dashboard-container">
-        <?php include 'sidebar.php'; ?>  <!-- Barra lateral -->
+        <?php include 'sidebar.php'; ?> 
         <div class="main-content">
             <header class="topbar">
                 <h1>Panel de Gestión</h1>

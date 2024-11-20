@@ -1,31 +1,31 @@
 <?php
-// Iniciar la sesión
+
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
+
 if (!isset($_SESSION['username'])) {
-    // Si no hay sesión iniciada, redirigir al inicio de sesión
+    
     header("Location: login.html");
     exit;
 }
 
-// Conectar a la base de datos
+
 $servername = "localhost";
 $username = "root";
-$password = ""; // tu contraseña
+$password = ""; 
 $dbname = "empresa_inventario";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexión
+
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Obtener información del usuario
+
 $user = $_SESSION['username'];
 
-// Consulta para obtener el ID del usuario basado en el username
+
 $sqlUserId = "SELECT usuario_id FROM login WHERE username = ?";
 $stmt = $conn->prepare($sqlUserId);
 $stmt->bind_param("s", $user);
@@ -35,7 +35,7 @@ $stmt->fetch();
 $stmt->close();
 
 if ($usuario_id) {
-    // Consulta para obtener los datos del usuario
+    
     $sql = "SELECT u.*, r.nombre AS rol_nombre 
             FROM usuarios u 
             JOIN roles r ON u.rol_id = r.id 
@@ -48,49 +48,49 @@ if ($usuario_id) {
     $userData = $result->fetch_assoc();
     $stmt->close();
 } else {
-    $userData = null; // Si no se encontró el ID del usuario, se asigna null
+    $userData = null;
 }
 
-// Procesar la subida de imagen
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
-    // Configuración de la subida
+    
     $foto = $_FILES['foto'];
-    $targetDir = "uploads/"; // Directorio para guardar imágenes
+    $targetDir = "uploads/"; 
     $targetFile = $targetDir . basename($foto['name']);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-    // Comprobar si el archivo es una imagen real
+    
     $check = getimagesize($foto['tmp_name']);
     if ($check === false) {
         echo "El archivo no es una imagen válida.";
         $uploadOk = 0;
     }
 
-    // Comprobar si el archivo ya existe
+    
     if (file_exists($targetFile)) {
         echo "Lo sentimos, el archivo ya existe.";
         $uploadOk = 0;
     }
 
-    // Permitir solo ciertos formatos de imagen
+    
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
         echo "Solo se permiten formatos JPG, JPEG, PNG y GIF.";
         $uploadOk = 0;
     }
 
-    // Intentar subir el archivo
+    
     if ($uploadOk == 1) {
         if (move_uploaded_file($foto['tmp_name'], $targetFile)) {
             echo "La imagen " . htmlspecialchars(basename($foto['name'])) . " se ha subido correctamente.";
 
-            // Guardar la ruta de la imagen en la base de datos
+            
             $sqlUpdate = "UPDATE usuarios SET foto_perfil = ? WHERE id = ?";
             $stmt = $conn->prepare($sqlUpdate);
             $stmt->bind_param("si", $targetFile, $usuario_id);
             if ($stmt->execute()) {
                 echo "Foto de perfil actualizada con éxito.";
-                header("Refresh:0"); // Recargar la página para reflejar los cambios
+                header("Refresh:0"); 
             } else {
                 echo "Error al guardar la foto en la base de datos.";
             }
@@ -120,7 +120,7 @@ $conn->close();
                 <header class="topbar">
                     <h1>Perfil de Usuario</h1>
                     <div class="actions">
-                        <a href="editar_perfil.php" class="btn">Editar Perfil</a> <!-- Botón para redirigir a la página de edición -->
+                        <a href="editar_perfil.php" class="btn">Editar Perfil</a> 
                         <a href="logout.php" class="btn">Salir</a>
                     </div>
                 </header>
@@ -141,10 +141,10 @@ $conn->close();
                     </div>
 
                     <div class="content2">
-                        <!-- Imagen de perfil -->
+                        
                         <img src="<?php echo htmlspecialchars($userData['foto_perfil']); ?>" alt="Foto de Perfil" style="width:250px; height:auto;">
 
-                        <!-- Formulario con mayor separación -->
+                        
                         <form action="perfil.php" method="post" enctype="multipart/form-data">
                             <label for="foto" class="custom-file-upload">
                                 Seleccionar archivo

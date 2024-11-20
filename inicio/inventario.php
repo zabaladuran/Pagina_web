@@ -5,49 +5,45 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-$conn = new mysqli("localhost", "root", "", "empresa_inventario"); // Conexión con la base de datos
+$conn = new mysqli("localhost", "root", "", "empresa_inventario"); 
 
-// Verificar conexión
+
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Verificar si se está eliminando un dispositivo
+
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
 
-    // Escapar el ID para evitar inyecciones SQL
     $delete_id = $conn->real_escape_string($delete_id);
 
-    // Iniciar una transacción para asegurar la integridad de los datos
+    
     $conn->begin_transaction();
 
     try {
-        // Eliminar primero todas las relaciones del equipo en las tablas relacionadas
-        // 1. Eliminar de la tabla fechas_productos
+        
         $conn->query("DELETE FROM fechas_productos WHERE producto_equipo_id = $delete_id");
 
-        // 2. Eliminar de la tabla mantenimientos
+        
         $conn->query("DELETE FROM mantenimientos WHERE equipo_id = $delete_id");
 
-        // 3. Eliminar finalmente el equipo de la tabla equipos
+        
         $conn->query("DELETE FROM equipos WHERE id = $delete_id");
 
-        // Confirmar los cambios
         $conn->commit();
 
-        // Redireccionar después de eliminar
         header("Location: inventario.php");
         exit;
 
     } catch (Exception $e) {
-        // Si ocurre algún error, revertir la transacción
+        
         $conn->rollback();
         die("Error al eliminar el dispositivo: " . $e->getMessage());
     }
 }
 
-// Verificar si se está actualizando un dispositivo
+
 if (isset($_POST['edit_id'])) {
     $id = $_POST['edit_id'];
     $nombre = $_POST['nombre'];
@@ -55,22 +51,22 @@ if (isset($_POST['edit_id'])) {
     $cantidad = $_POST['cantidad'];
     $precio = $_POST['precio'];
 
-    // Escapar los valores para evitar inyecciones SQL
+    
     $id = $conn->real_escape_string($id);
     $nombre = $conn->real_escape_string($nombre);
     $descripcion = $conn->real_escape_string($descripcion);
     $cantidad = $conn->real_escape_string($cantidad);
     $precio = $conn->real_escape_string($precio);
 
-    // Actualizar la información del equipo
+    
     $conn->query("UPDATE equipos SET nombre='$nombre', descripcion='$descripcion', cantidad='$cantidad', precio='$precio' WHERE id = $id");
 
-    // Redireccionar después de la actualización
+    
     header("Location: inventario.php");
     exit;
 }
 
-// Consulta para obtener los dispositivos y su estado actual
+
 $result = $conn->query("
     SELECT e.*, 
             COALESCE(m.estado_id, NULL) AS estado_id, 
@@ -84,12 +80,12 @@ $result = $conn->query("
     LEFT JOIN estados_equipos es ON m.estado_id = es.id
 ");
 
-// Verificar si la consulta fue exitosa
+
 if (!$result) {
     die("Error en la consulta: " . $conn->error);
 }
 
-$totalPrecio = 0; // Variable para almacenar el precio total
+$totalPrecio = 0; 
 ?>
 
 <!DOCTYPE html>
@@ -126,8 +122,8 @@ $totalPrecio = 0; // Variable para almacenar el precio total
                     <tbody>
                         <?php if ($result->num_rows > 0): ?>
                             <?php while($row = $result->fetch_assoc()): 
-                                $precioTotal = $row['precio'] * $row['cantidad']; // Calcular precio total por dispositivo
-                                $totalPrecio += $precioTotal; // Calcular precio total acumulado
+                                $precioTotal = $row['precio'] * $row['cantidad']; 
+                                $totalPrecio += $precioTotal; 
                             ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($row['nombre']); ?></td>
@@ -156,7 +152,7 @@ $totalPrecio = 0; // Variable para almacenar el precio total
                                 </td>
                             </tr>
                             <?php endwhile; ?>
-                             <?php else: ?>
+                            <?php else: ?>
                             <tr>
                                 <td colspan="7">No hay dispositivos registrados.</td>
                             </tr>

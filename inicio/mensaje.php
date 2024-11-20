@@ -1,5 +1,5 @@
 <?php
-session_start(); // Iniciar sesión para acceder al mensaje
+session_start(); 
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ session_start(); // Iniciar sesión para acceder al mensaje
         <?php
         if (isset($_SESSION['message'])) {
             echo "<p>" . $_SESSION['message'] . "</p>";
-            unset($_SESSION['message']); // Destruir el mensaje después de mostrarlo
+            unset($_SESSION['message']); 
         } else {
             echo "<p>No hay mensaje para mostrar.</p>";
         }

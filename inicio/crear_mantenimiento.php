@@ -1,25 +1,25 @@
 <?php
-// Configuración de la conexión a la base de datos
-$host = "localhost"; // Cambia según tu configuración
-$user = "root"; // Cambia según tu configuración
-$password = ""; // Cambia según tu configuración
+
+$host = "localhost"; 
+$user = "root"; 
+$password = ""; 
 $database = "empresa_inventario";
 
-// Crear conexión
+
 $conn = new mysqli($host, $user, $password, $database);
 
-// Verificar la conexión
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Inicializar variables para almacenar las opciones
+
 $equipos = [];
 $tipos_mantenimiento = [];
 $tecnicos = [];
 $estados = [];
 
-// Obtener equipos
+
 $result = $conn->query("SELECT id, nombre FROM equipos");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -27,7 +27,7 @@ if ($result) {
     }
 }
 
-// Obtener tipos de mantenimiento
+
 $result = $conn->query("SELECT id, nombre FROM tipos_mantenimiento");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -35,7 +35,7 @@ if ($result) {
     }
 }
 
-// Obtener técnicos
+
 $result = $conn->query("SELECT id, nombre FROM tecnicos");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -43,7 +43,7 @@ if ($result) {
     }
 }
 
-// Obtener estados desde la tabla estados_equipos
+
 $result = $conn->query("SELECT id, nombre FROM estados_equipos");
 if ($result) {
     while ($row = $result->fetch_assoc()) {
@@ -51,26 +51,25 @@ if ($result) {
     }
 }
 
-// Comprobar si se han enviado los datos del formulario
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recoger datos del formulario
+    
     $equipo_id = $_POST['equipo_id']; 
     $tipo_mantenimiento_id = $_POST['tipo_mantenimiento_id']; 
     $descripcion = $_POST['descripcion']; 
     $tecnico_id = $_POST['tecnico_id']; 
     $estado_id = $_POST['estado_id']; 
-    $ultimo_mantenimiento = $_POST['fecha_mantenimiento']; // Último mantenimiento
-    $proximo_mantenimiento = $_POST['proximo_mantenimiento']; // Próximo mantenimiento
+    $ultimo_mantenimiento = $_POST['fecha_mantenimiento']; 
+    $proximo_mantenimiento = $_POST['proximo_mantenimiento']; 
 
-    // Preparar la consulta SQL
     $stmt = $conn->prepare("INSERT INTO mantenimientos (equipo_id, tipo_mantenimiento_id, descripcion, tecnico_id, estado_id, ultimo_mantenimiento, proximo_mantenimiento) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-    // Verificar si la preparación fue exitosa
+    
     if ($stmt === false) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    // Vincular parámetros
+    
     $stmt->bind_param("iisssss", 
         $equipo_id, 
         $tipo_mantenimiento_id, 
@@ -81,20 +80,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $proximo_mantenimiento
     );
 
-    // Ejecutar la declaración
+    
     if (!$stmt->execute()) {
         die("Error executing statement: " . $stmt->error);
     }
 
-    // Cerrar la declaración
+    
     $stmt->close();
 
-    // Redireccionar a mantenimiento.php después de crear el mantenimiento
+    
     header("Location: mantenimiento.php");
     exit(); 
 }
 
-// Cerrar la conexión
+
 $conn->close();
 ?>
 
@@ -110,7 +109,7 @@ $conn->close();
 <form method="POST" action="">
         <h1>Crear Mantenimiento</h1>
         
-        <!-- Equipo -->
+        
         <label for="equipo_id">Equipo:</label>
         <select name="equipo_id" id="equipo_id" required>
             <option value="">Seleccione un equipo</option>
@@ -121,7 +120,7 @@ $conn->close();
             <?php endforeach; ?>
         </select>
 
-        <!-- Tipo de Mantenimiento -->
+        
         <label for="tipo_mantenimiento_id">Tipo de Mantenimiento:</label>
         <select name="tipo_mantenimiento_id" id="tipo_mantenimiento_id" required>
             <option value="">Seleccione un tipo de mantenimiento</option>
@@ -132,15 +131,15 @@ $conn->close();
             <?php endforeach; ?>
         </select>
 
-        <!-- Fecha de Mantenimiento -->
+        
         <label for="fecha_mantenimiento">Fecha de Mantenimiento:</label>
         <input type="date" name="fecha_mantenimiento" id="fecha_mantenimiento" required>
 
-        <!-- Descripción -->
+        
         <label for="descripcion">Descripción:</label>
         <textarea name="descripcion" id="descripcion" required></textarea>
 
-        <!-- Técnico -->
+        
         <label for="tecnico_id">Técnico:</label>
         <select name="tecnico_id" id="tecnico_id" required>
             <option value="">Seleccione un técnico</option>
@@ -151,7 +150,7 @@ $conn->close();
             <?php endforeach; ?>
         </select>
 
-        <!-- Estado -->
+        
         <label for="estado_id">Estado:</label>
         <select name="estado_id" id="estado_id" required>
             <option value="">Seleccione un estado</option>
@@ -162,11 +161,11 @@ $conn->close();
             <?php endforeach; ?>
         </select>
 
-        <!-- Próximo Mantenimiento -->
+        
         <label for="proximo_mantenimiento">Próximo Mantenimiento:</label>
         <input type="date" name="proximo_mantenimiento" id="proximo_mantenimiento" required>
 
-        <!-- Botones -->
+        
         <div class="button-container">
             <button type="submit" onclick="window.location.href='volver_url.php';">Crear Mantenimiento</button>
             <button type="button" onclick="location.href='mantenimiento.php'">Volver</button>

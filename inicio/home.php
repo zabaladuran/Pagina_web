@@ -1,14 +1,14 @@
 <?php
-// Iniciar la sesión
+
 session_start();
 
-// Verificar si el usuario ha iniciado sesión
+
 if (!isset($_SESSION['username'])) {
     header("Location: login.html");
     exit;
 }
 
-// Conexión a la base de datos
+
 $host = "localhost";
 $user = "root";
 $password = "";
@@ -20,7 +20,7 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Consultas para evitar duplicados
+
 $resultUsuarios = $conn->query("SELECT COUNT(DISTINCT email) AS total FROM usuarios");
 $totalUsuarios = $resultUsuarios->fetch_assoc()['total'];
 
@@ -30,7 +30,6 @@ $totalEquipos = $resultEquipos->fetch_assoc()['total'];
 $resultProveedores = $conn->query("SELECT COUNT(DISTINCT nombre) AS total FROM proveedores");
 $totalProveedores = $resultProveedores->fetch_assoc()['total'];
 
-// Datos para la gráfica
 $graficaData = [
     'usuarios' => $totalUsuarios,
     'equipos' => $totalEquipos,
@@ -80,16 +79,15 @@ $graficaData = [
                                 clock.textContent = `${hours}:${minutes}:${seconds}`;
                             }
 
-                            // Actualiza el reloj cada segundo
+                            
                             setInterval(updateClock, 1000);
 
-                            // Llama a la función una vez para evitar el retraso inicial
+                            
                             updateClock();
                         </script>
 
                 </div>
 
-                <!-- Paneles -->
                 <div class="dashboard-panels">
                     <div class="panel">
                         <h2>Usuarios</h2>
@@ -105,7 +103,7 @@ $graficaData = [
                     </div>
                 </div>
 
-                <!-- Gráfica -->
+                
                 <div class="chart-container">
                     <canvas id="inventoryChart"></canvas>
                 </div>
@@ -114,7 +112,7 @@ $graficaData = [
     </div>
 
     <script>
-        // Datos para la gráfica
+        
         const dataGrafica = <?php echo json_encode($graficaData); ?>;
 
         const ctx = document.getElementById('inventoryChart').getContext('2d');

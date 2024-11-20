@@ -5,45 +5,25 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// Conexión a la base de datos
+
 $conn = new mysqli("127.0.0.1", "root", "", "empresa_inventario");
 
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-// Verificar si se ha enviado el ID del mantenimiento para eliminar
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']); // Asegurarse de que sea un número entero
 
-    // Consulta SQL para eliminar el mantenimiento
-    $sql = "DELETE FROM mantenimientos WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id); // "i" indica que el parámetro es un entero
-
-    if ($stmt->execute()) {
-        // Puedes agregar un mensaje de éxito aquí
-       // echo "<script>alert('Mantenimiento eliminado correctamente.');</script>";
-    } else {
-        //echo "<script>alert('Error al eliminar el mantenimiento: " . $stmt->error . "');</script>";
-    }
-
-    $stmt->close();
-}
-
-// Consulta SQL para obtener datos de mantenimiento
 $sql = "SELECT m.id, e.nombre AS dispositivo, 
-            m.fecha_mantenimiento AS ultimo_mantenimiento,
-            DATE_ADD(m.fecha_mantenimiento, INTERVAL t.frecuencia_mantenimiento DAY) AS proximo_mantenimiento,
+            m.ultimo_mantenimiento,
+            m.proximo_mantenimiento,
             t.nombre AS tipo_mantenimiento
         FROM mantenimientos m
         JOIN equipos e ON m.equipo_id = e.id
-        JOIN fechas_productos fp ON e.id = fp.producto_equipo_id
         JOIN tipos_mantenimiento t ON m.tipo_mantenimiento_id = t.id";
 
 $result = $conn->query($sql);
 
-// Manejo de errores
+
 if (!$result) {
     die("Error en la consulta: " . $conn->error);
 }
@@ -54,7 +34,7 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aulapp - Mantenimiento</title>
+    <title>Gestión de Mantenimiento</title>
     <link rel="stylesheet" href="../css/mantenimineto43.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -66,7 +46,6 @@ if (!$result) {
                 <h1>Gestión de Mantenimiento</h1>
             </header>
             <div class="content">
-                <!-- Botón para crear un nuevo mantenimiento -->
                 <div class="button-container">
                     <a href="crear_mantenimiento.php" class="btn btn-primary">Crear Mantenimiento</a>
                 </div>
@@ -115,7 +94,7 @@ if (!$result) {
                     </tbody>
                 </table>
             </div>
-        </div>
+    </div>
     </div>
 </body>
 </html>

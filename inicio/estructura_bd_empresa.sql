@@ -1,26 +1,26 @@
 CREATE DATABASE IF NOT EXISTS empresa_inventario;
 USE empresa_inventario;
 
--- 1. Tabla: roles
+
 CREATE TABLE IF NOT EXISTS roles (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50),
     descripcion TEXT
 );
 
--- 2. Tabla: marcas
+
 CREATE TABLE IF NOT EXISTS marcas (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL
 );
 
--- 3. Tabla: categorias
+
 CREATE TABLE IF NOT EXISTS categorias (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL
 );
 
--- 4. Tabla: proveedores (modificada para incluir 'email')
+
 CREATE TABLE IF NOT EXISTS proveedores (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS proveedores (
     email VARCHAR(100)
 );
 
--- 5. Tabla: usuarios
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(100) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     FOREIGN KEY (rol_id) REFERENCES roles(id)
 );
 
--- 6. Tabla: login
+
 CREATE TABLE IF NOT EXISTS login (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS login (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 7. Tabla: historial_login
+
 CREATE TABLE IF NOT EXISTS historial_login (
     id INT PRIMARY KEY AUTO_INCREMENT,
     usuario_id INT,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS historial_login (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
--- 8. Tabla: equipos
+
 CREATE TABLE IF NOT EXISTS equipos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS equipos (
     FOREIGN KEY (marca_id) REFERENCES marcas(id)
 );
 
--- 9. Tabla: tecnicos
+
 CREATE TABLE IF NOT EXISTS tecnicos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -89,13 +89,13 @@ CREATE TABLE IF NOT EXISTS tecnicos (
     FOREIGN KEY (rol_id) REFERENCES roles(id)
 );
 
--- 10. Tabla: estados_equipos
+
 CREATE TABLE IF NOT EXISTS estados_equipos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50) NOT NULL
 );
 
--- 11. Tabla: tipos_mantenimiento
+
 CREATE TABLE IF NOT EXISTS tipos_mantenimiento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
@@ -103,7 +103,6 @@ CREATE TABLE IF NOT EXISTS tipos_mantenimiento (
     frecuencia_mantenimiento INT
 );
 
--- 12. Tabla: mantenimientos
 CREATE TABLE IF NOT EXISTS mantenimientos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     equipo_id INT,
@@ -120,7 +119,7 @@ CREATE TABLE IF NOT EXISTS mantenimientos (
     FOREIGN KEY (estado_id) REFERENCES estados_equipos(id)
 );
 
--- 13. Tabla: fechas_productos
+
 CREATE TABLE IF NOT EXISTS fechas_productos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     producto_equipo_id INT,
@@ -131,7 +130,7 @@ CREATE TABLE IF NOT EXISTS fechas_productos (
     FOREIGN KEY (producto_equipo_id) REFERENCES equipos(id)
 );
 
--- 14. Insertar datos en la tabla roles
+
 INSERT INTO roles (nombre, descripcion) VALUES 
 ('admin', 'Administrador del sistema con acceso completo.'),
 ('inventarista', 'Responsable de la gestión del inventario.'),
@@ -140,14 +139,14 @@ INSERT INTO roles (nombre, descripcion) VALUES
 ('usuarios', 'Permite ver pero no modificar nada.')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), descripcion = VALUES(descripcion);
 
--- 15. Insertar datos en la tabla estados_equipos
+
 INSERT INTO estados_equipos (nombre) VALUES
 ('en mantenimiento'),
 ('libre'),
 ('en uso')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
--- 16. Insertar datos en la tabla categorías
+
 INSERT INTO categorias (nombre) VALUES
 ('Computadoras'),
 ('Impresoras'),
@@ -158,7 +157,7 @@ INSERT INTO categorias (nombre) VALUES
 ('Otros dispositivos electrónicos')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
--- 17. Insertar datos en la tabla marcas
+
 INSERT INTO marcas (nombre) VALUES
 ('Samsung'),
 ('LG'),
@@ -172,7 +171,7 @@ INSERT INTO marcas (nombre) VALUES
 ('Motorola')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
--- 18. Insertar datos en la tabla proveedores (con la columna email ya definida)
+
 INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Tech Solutions S.A.S.', 'Juan Pérez', '3123456789', 'Carrera 10 #20-30', 'info@techsolutions.com'),
 ('Electro World Ltda.', 'María Gómez', '3219876543', 'Avenida 5 #10-20', 'contacto@electroworld.com'),
@@ -186,7 +185,7 @@ INSERT INTO proveedores (nombre, contacto, telefono, direccion, email) VALUES
 ('Electrocomp S.A.S.', 'Esteban Rojas', '3107890123', 'Calle 22 #10-15', 'info@electrocomp.com')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), contacto = VALUES(contacto), telefono = VALUES(telefono), direccion = VALUES(direccion), email = VALUES(email);
 
--- 19. Insertar datos en la tabla tipos de mantenimiento
+
 INSERT INTO tipos_mantenimiento (nombre, descripcion, frecuencia_mantenimiento) VALUES
 ('Preventivo', 'Mantenimiento regular para prevenir fallos', 30),
 ('Correctivo', 'Reparación de equipos dañados', NULL),
@@ -194,7 +193,6 @@ INSERT INTO tipos_mantenimiento (nombre, descripcion, frecuencia_mantenimiento) 
 ('De Emergencia', 'Realizado cuando hay un fallo crítico', NULL)
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), descripcion = VALUES(descripcion), frecuencia_mantenimiento = VALUES(frecuencia_mantenimiento);
 
--- 20. Insertar un técnico de ejemplo
 INSERT INTO tecnicos (nombre, apellido, telefono, correo, rol_id) VALUES
 ('Carlos', 'Pérez', '3001234567', 'carlos.perez@example.com', (SELECT id FROM roles WHERE nombre = 'mantenimiento'))
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre), apellido = VALUES(apellido), telefono = VALUES(telefono), correo = VALUES(correo), rol_id = VALUES(rol_id);

@@ -46,7 +46,7 @@
             <button id="next">»</button>
         </div>
         <div class="days">
-            <!-- Días se generarán dinámicamente -->
+            
         </div>
     </div>
 
@@ -68,10 +68,10 @@
         const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 
         function renderCalendar(month, year) {
-            daysContainer.innerHTML = ""; // Limpiar los días
+            daysContainer.innerHTML = ""; 
             monthYear.textContent = `${monthNames[month]} ${year}`;
 
-            // Días de la semana
+            
             dayNames.forEach(day => {
                 const dayHeader = document.createElement('div');
                 dayHeader.classList.add('day-header');
@@ -79,25 +79,25 @@
                 daysContainer.appendChild(dayHeader);
             });
 
-            // Fecha del primer día del mes
+            
             const firstDay = new Date(year, month, 1).getDay();
 
-            // Número total de días en el mes
+            
             const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-            // Días en blanco antes del primer día
+            
             for (let i = 0; i < firstDay; i++) {
                 const emptyDay = document.createElement('div');
                 daysContainer.appendChild(emptyDay);
             }
 
-            // Días del mes
+            
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayElement = document.createElement('div');
                 dayElement.classList.add('day');
                 dayElement.textContent = day;
 
-                // Marcar el día actual
+                
                 if (
                     day === now.getDate() &&
                     month === now.getMonth() &&
@@ -127,31 +127,31 @@
         prevButton.addEventListener('click', () => changeMonth(-1));
         nextButton.addEventListener('click', () => changeMonth(1));
 
-        // Renderizar el calendario inicial
+        
         renderCalendar(currentMonth, currentYear);
     </script>
             <style>
-            /* Calendario */
-                /* Calendario */
+            
+                
                     .calendar {
                         width: 210px;
                         background: #ffffff;
                         color: #34495e;
                         position: relative;
-                        left: 1px; /* Ajusta este valor según la distancia deseada */
+                        left: 1px; 
                         border-radius: 10px;
                         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-                        padding: 25px; /* Ajuste del padding */
+                        padding: 25px; 
                         text-align: center;
                         font-family: Arial, sans-serif;
                     }
 
-                    /* Encabezado del calendario */
+                    
                     .calendar-header {
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
-                        margin-bottom: 5px; /* Ajuste del margen */
+                        margin-bottom: 5px; 
                     }
 
                     .calendar-header button {
@@ -168,21 +168,21 @@
                         background: #BA8148;
                     }
 
-                    /* Días del calendario */
+                    
                     .days {
                         display: grid;
-                        grid-template-columns: repeat(7, 1fr); /* 7 columnas */
-                        gap: 1px; /* Espaciado ajustado */
+                        grid-template-columns: repeat(7, 1fr); 
+                        gap: 1px; 
                     }
 
                     .day {
-                        padding: 8px; /* Tamaño consistente */
+                        padding: 8px; 
                         background: #7A7474;
                         border-radius: 5px;
                         color: #ffffff;
                         transition: background 0.3s ease;
                         text-align: center;
-                        font-size: 14px; /* Ajuste del tamaño del texto */
+                        font-size: 14px; 
                     }
 
                     .day:hover {
@@ -190,25 +190,24 @@
                         cursor: pointer;
                     }
 
-                    /* Encabezado de los días (DOM, LUN, etc.) */
+                    
                     .day-header {
                         font-weight: bold;
                         color: #34495e;
                         text-transform: uppercase;
-                        font-size: 13px; /* Ajuste del tamaño del encabezado */
+                        font-size: 13px;
                     }
 
-                    /* Día actual */
+                    
                     .day.today {
                         background: #461615;
                         color: #ffffff;
                         font-weight: bold;
                     }
 
-                    /* Espaciado general */
                     .days > .day, .days > .day-header {
-                        width: 90%; /* Asegura que ocupe todo el espacio de su celda */
-                        box-sizing: border-box; /* Incluye padding y border en las dimensiones */
+                        width: 90%;
+                        box-sizing: border-box; 
                     }
 
             </style>
